@@ -10,7 +10,6 @@ import {
   Select,
   MenuItem,
   InputLabel,
-  OutlinedInput,
   SelectChangeEvent
 } from '@mui/material'
 import { DatePicker, deDE, LocalizationProvider } from '@mui/x-date-pickers'
@@ -38,14 +37,6 @@ import FormatByte from '@/utils/fileSizeConverter'
 import TimeFormatter from '@/utils/timeFormatter'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 import UrlConfig from '@/config/urlConfig'
-interface CreateTrackFormProps {
-  step: number
-  formValues: Track
-  formErrors: Track
-  setFormValues: (formValues: Track) => void
-  setFormErrors: (formErrors: Track) => void
-  setCropper: any
-}
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -86,13 +77,26 @@ const getLogo = (fileExtension: string) => {
       return audio
   }
 }
+interface CreateTrackFormProps {
+  step: number
+  formValues: Track
+  formErrors: Track
+  setFormValues: (formValues: Track) => void
+  setFormErrors: (formErrors: Track) => void
+  setCropper: any
+  releaseDate?: string
+  coverPath?: string
+}
+
 const CreateTrackForm = ({
   step,
   formValues,
   formErrors,
   setFormValues,
   setFormErrors,
-  setCropper
+  setCropper,
+  releaseDate,
+  coverPath
 }: CreateTrackFormProps) => {
   const [editMode, setEditMode] = useState(false)
   const [newAvatar, setNewAvatar] = useState('')
@@ -104,7 +108,7 @@ const CreateTrackForm = ({
 
   const axios = useAxiosPrivate()
   const [date, setDate] = useState<Dayjs | null>(() => {
-    return dayjs()
+    return dayjs(releaseDate)
   })
 
   useEffect(() => {

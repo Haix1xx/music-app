@@ -8,10 +8,10 @@ export default function ProfileHeader({ avatar, artistName }: ProfileHeaderProps
   return (
     <Box paddingBottom='30px'>
       <Grid container spacing={2}>
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} md={3}>
           <Avatar sx={{ width: '300px', height: '300px' }} src={avatar} />
         </Grid>
-        <Grid item xs={12} md={8} sx={{ position: 'relative' }}>
+        <Grid item xs={12} md={9} sx={{ position: 'relative' }}>
           <Container sx={{ position: 'absolute', bottom: '0' }}>
             <Typography>
               Verify Artist{' '}

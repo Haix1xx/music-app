@@ -5,19 +5,7 @@ import { styled } from '@mui/material/styles'
 
 import { Track } from '@/types/track'
 import CreateTrackForm from './CreateTrackForm'
-import {
-  Container,
-  Typography,
-  Stack,
-  Button,
-  Step,
-  StepLabel,
-  StepIcon,
-  Box,
-  Stepper,
-  CircularProgress,
-  IconButton
-} from '@mui/material'
+import { Container, Typography, Stack, Button, Step, StepLabel, Box, Stepper, CircularProgress } from '@mui/material'
 import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector'
 import { StepIconProps } from '@mui/material/StepIcon'
 import { Check, Article, AudioFile, Photo } from '@mui/icons-material'
@@ -26,6 +14,7 @@ import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 import UrlConfig from '@/config/urlConfig'
 import useSnackbar from '@/context/snackbarContext'
 import { useSearchParams, useRouter } from 'next/navigation'
+import { Album } from '@/types/album'
 
 const BORDER_RADIUS = '16px'
 
@@ -60,7 +49,7 @@ const StyledBanner = styled('div')(({ theme }) => ({
 const StyledForm = styled(Container)(({ theme }) => ({
   margin: 0,
   minWidth: '80%',
-  width: 'auto',
+  width: '100%',
   height: '100%',
   zIndex: 10,
   borderRadius: BORDER_RADIUS,
@@ -70,7 +59,7 @@ const StyledForm = styled(Container)(({ theme }) => ({
 
 const StyledContent = styled('div')(({ theme }) => ({
   [theme.breakpoints.up('md')]: {
-    width: '90%',
+    width: '100%',
     // maxWidth: 480,
     margin: 'auto',
     display: 'flex',
@@ -153,14 +142,17 @@ function ColorlibStepIcon(props: StepIconProps) {
 
 const steps = ['Track Information', 'Art Cover', 'Audio File']
 
-export default function TrackForm() {
+interface TrackFormProps {
+  album?: Album
+}
+export default function TrackForm({ album }: TrackFormProps) {
   const axios = useAxiosPrivate()
   const [formValues, setFormValues] = useState<Track>({
     artist: '',
-    coverPath: '',
+    coverPath: album ? album.coverPath : '',
     title: '',
     url: '',
-    album: '',
+    album: album?._id ?? '',
     collaborators: [],
     duration: 0,
     isPublic: false,
@@ -170,7 +162,9 @@ export default function TrackForm() {
     source: '',
     copyRight: '',
     publishRight: '',
-    genres: []
+    genres: [],
+    _id: '',
+    releaseDate: album ? album.releaseDate : ''
   })
 
   const [formErrors, setFormErrors] = useState<Track>({
@@ -182,7 +176,8 @@ export default function TrackForm() {
     writtenBy: true,
     source: true,
     copyRight: true,
-    publishRight: true
+    publishRight: true,
+    _id: ''
   })
 
   const searchParams = useSearchParams()
@@ -243,21 +238,28 @@ export default function TrackForm() {
   }
 
   const handleSubmit = async () => {
-    var artCover = await getCropData()
-    if (!artCover) {
-      setSnack({
-        open: true,
-        message: 'An error occured while uploading art cover',
-        type: 'error'
-      })
-      return
+    var artCover = ''
+    if (!album) {
+      artCover = await getCropData()
+      if (!artCover) {
+        setSnack({
+          open: true,
+          message: 'An error occured while uploading art cover',
+          type: 'error'
+        })
+        return
+      }
+    } else {
+      artCover = album.coverPath
     }
+
     setIsSubmitting(true)
     console.log(formValues)
     const formData = new FormData()
     formData.append('track', new File([formValues.track.blob], formValues.track.name, { type: formValues.track.type }))
     formData.append('coverPath', artCover)
     formData.append('title', formValues.title.toString())
+    formData.append('album', formValues?.album?.toString() ?? '')
     formData.append('releaseDate', formValues?.releaseDate?.toString() ?? '')
     formData.append('writtenBy', formValues.writtenBy?.toString() ?? '')
     formData.append('producedBy', formValues.producedBy?.toString() ?? '')
@@ -293,7 +295,11 @@ export default function TrackForm() {
     } else if (activeStep === 0) {
       const hasError = checkFormValues(['title', 'source', 'copyRight', 'publishRight', 'releaseDate'])
       if (!hasError) {
-        setActiveStep(activeStep + 1)
+        if (album) {
+          setActiveStep(activeStep + 2)
+        } else {
+          setActiveStep(activeStep + 1)
+        }
       }
     } else if (activeStep === 1) {
       const hasError = checkFormValues([])
@@ -306,7 +312,11 @@ export default function TrackForm() {
   }
 
   function _handleBack() {
-    setActiveStep(activeStep - 1)
+    if (album && activeStep == 2) {
+      setActiveStep(activeStep - 2)
+    } else {
+      setActiveStep(activeStep - 1)
+    }
   }
   return (
     <Container sx={{ position: 'relative' }}>
@@ -334,6 +344,8 @@ export default function TrackForm() {
               setFormErrors={setFormErrors}
               setFormValues={setFormValues}
               setCropper={setCropper}
+              releaseDate={album?.releaseDate}
+              coverPath={album?.coverPath}
             />
             <Stack direction={'row'} justifyContent={'space-between'} className='w-full' sx={{ paddingTop: '10px' }}>
               {activeStep !== 0 ? <Button onClick={_handleBack}>Back</Button> : <Box></Box>}

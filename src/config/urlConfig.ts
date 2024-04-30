@@ -18,6 +18,8 @@ const UrlConfig: any = {
   },
   common: {
     genres: `/api/v1/genres`,
+    albums: `/api/v1/albums`,
+    getAlbum: (id: string) => `/api/v1/albums/${id}`,
     getGenresById: (genreId: string) => `/api/v1/genres/${genreId}`,
     getTracksByArtist: (artistId: string, limit: number = 5, page: number = 1) =>
       `/api/v1/artists/${artistId}/tracks?limit=${limit}&page=${page}`,
