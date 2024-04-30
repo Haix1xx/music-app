@@ -1,0 +1,39 @@
+{
+    "ManageProfile": "Quản lý hồ sơ",  
+	"Language": "Ngôn ngữ",   
+    "SignOut": "Đăng xuất",
+	"Settings": "Cài đặt",
+
+    "Unauthorized": "Unauthorized",
+    "PageNotFound": "Page Not Found",
+    "401": "Bạn không có quyền truy cập trang này",
+    "404": "Trang không tồn tại",
+
+    "STT": "STT",
+    "Edit": "Sửa",
+    "Delete": "Xóa",
+    "Cancel": "Hủy",
+    "Search": "Tìm kiếm",
+    "Save": "Lưu",
+    "SaveChanges": "Lưu thay đổi",
+    "Ok": "Ok",
+    "Close": "Đóng",
+    
+    "Permissions": "Quyền",
+    "Status": "Trạng thái",
+    "Actions": "Hành động",
+    "Default": "Mặc định",
+    "Public": "Công khai",
+
+    "Username": "Tên người dùng",
+    "Name": "Tên",
+    "Surname": "Họ",
+    "Email": "Email",
+    "Password": "Mật khẩu",
+    "ConfirmPassword": "Xác nhận mật khẩu",
+    "PhoneNumber": "Số điện thoại",
+    "Info": "Thông tin",
+
+    "Vietnamese": "Tiếng Việt",
+    "English": "Tiếng Anh"
+}

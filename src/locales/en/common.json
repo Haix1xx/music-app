@@ -1,0 +1,39 @@
+{
+    "ManageProfile": "Manage Profile",
+	"Language": "Language",   
+	"SignOut": "Sign Out",
+	"Settings": "Settings",
+
+    "Unauthorized": "Unauthorized",
+	"PageNotFound": "Page Not Found",
+	"401": "You are not authorized to access this page",
+	"404": "This page does not exist",
+
+	"STT": "No.",
+    "Edit": "Edit",
+    "Delete": "Delete",
+    "Cancel": "Cancel",
+    "Search": "Search",
+    "Save": "Save",
+    "SaveChanges": "Save Changes",
+    "Ok": "Ok",
+    "Close": "Close",
+
+	"Permissions": "Permissions",
+	"Status": "Status",
+	"Actions": "Actions",
+	"Default": "Default",
+	"Public": "Public",
+
+	"Username": "Username",
+	"Name": "Name",
+	"Surname": "Surname",
+	"Email": "Email",
+	"Password": "Password",
+	"ConfirmPassword": "Confirm Password",
+	"PhoneNumber": "Phone Number",
+    "Info": "Info",
+
+	"Vietnamese": "Vietnamese",
+	"English": "English"
+}
