@@ -9,6 +9,7 @@ import { useAuth } from '@/context/AuthContext'
 import TrackBox from '@/components/Track/TrackBox'
 import { TrackInfo } from '@/types/TrackInfo'
 import { User } from '@/types/user'
+import { Single } from '@/types/single'
 
 export default function Page() {
   // responsive
@@ -45,18 +46,18 @@ export default function Page() {
 
   const axios = useAxiosPrivate()
 
-  const [latestTracks, setLastestTracks] = useState<TrackInfo[]>([])
+  const [latestSingles, setLastestSingles] = useState<Single[]>([])
   const [latestAlbums, setLatestAlbums] = useState<any[]>([])
   const [user, setUser] = useState<User | null>()
   const auth = useAuth()
   useEffect(() => {
     const fetchTracks = async () => {
       try {
-        const trackPromise = axios.get(UrlConfig.common.getTracksByArtist(auth.user?._id))
+        const singlePromise = axios.get(UrlConfig.common.getSinglesByArtist(auth.user?._id))
         const albumPromise = axios.get(UrlConfig.common.getAlbumsByArtist(auth.user?._id))
-        const [trackResponse, albumResponse] = await Promise.all([trackPromise, albumPromise])
-        if (trackResponse.status === 200) {
-          setLastestTracks(trackResponse.data.data.data)
+        const [singleResponse, albumResponse] = await Promise.all([singlePromise, albumPromise])
+        if (singleResponse.status === 200) {
+          setLastestSingles(singleResponse.data.data.data)
         }
 
         if (albumResponse.status === 200) {
@@ -79,14 +80,14 @@ export default function Page() {
       />
 
       <Stack spacing={3} direction='row' sx={{ flexWrap: 'wrap' }} ref={trackStackRef}>
-        {latestTracks.slice(0, visibleTracks).map((track, index) => (
+        {latestSingles.slice(0, visibleTracks).map((single, index) => (
           <TrackBox
-            cover={track.coverPath ?? ''}
-            releaseDate={track.releaseDate ?? ''}
-            title={track.title}
-            key={track._id}
+            cover={single.track.coverPath ?? ''}
+            releaseDate={single.track.releaseDate ?? ''}
+            title={single.track.title}
+            key={single.track._id}
             type='Single'
-            id={track._id}
+            id={single.track._id}
             ref={index === 0 ? trackBoxRef : null}
           />
         ))}

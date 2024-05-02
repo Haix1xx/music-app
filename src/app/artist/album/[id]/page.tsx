@@ -7,6 +7,7 @@ import useResponsive from '@/hooks/useResponsive'
 import { Album } from '@/types/album'
 import { Box, Button, Container, Modal, Stack } from '@mui/material'
 import { useEffect, useState } from 'react'
+import TrackTable from './TrackTable'
 
 export default function Page({ params }: { params: { id: string } }) {
   const isMobile = useResponsive('down', 'sm')
@@ -18,10 +19,10 @@ export default function Page({ params }: { params: { id: string } }) {
   useEffect(() => {
     const fetchAlbum = async () => {
       try {
-        const response = await axios.get(UrlConfig.common.getAlbum(params.id))
+        const response = await axios.get(UrlConfig.common.albumAndTracks(params.id))
         if (response.data.status === 'success') {
+          console.log(response.data.data.data, '------------')
           setAlbum(response.data.data.data)
-          console.log(album, typeof album)
         }
       } catch (err) {
         return
@@ -31,6 +32,9 @@ export default function Page({ params }: { params: { id: string } }) {
     fetchAlbum()
   }, [params])
 
+  useEffect(() => {
+    console.log('from parent', album)
+  }, [album])
   return (
     <>
       <Modal open={open} onClose={() => setOpen(false)}>
@@ -49,17 +53,19 @@ export default function Page({ params }: { params: { id: string } }) {
           }}
         >
           <Container sx={{ alignSelf: 'center', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
-            <TrackForm album={album} />
+            <TrackForm album={album} setAlbum={setAlbum} handleClose={() => setOpen(false)} />
           </Container>
         </Box>
       </Modal>
-      <Container>
+      <Container maxWidth='xl' sx={{ maxHeight: '100%', overflow: 'auto', paddingBottom: '60px' }}>
         {album && <AlbumHeader album={album} />}
-        <Stack direction='row' alignItems='center' justifyContent='flex-end' spacing={2} padding='0 20px'>
+        <Stack direction='row' alignItems='center' justifyContent='flex-end' spacing={2}>
           <Button variant='contained' onClick={() => setOpen(true)}>
             Create track
           </Button>
         </Stack>
+
+        {album && <TrackTable album={album} setAlbum={setAlbum} />}
       </Container>
     </>
   )

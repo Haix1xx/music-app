@@ -11,7 +11,7 @@ export interface Album {
   tracks: TrackOrder[]
 }
 
-interface TrackOrder {
+export interface TrackOrder {
   order: number
   track: TrackInfo
 }

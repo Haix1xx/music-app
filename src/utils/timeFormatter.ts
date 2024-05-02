@@ -7,5 +7,5 @@ export default function TimeFormatter(time: number) {
 
   const second = Math.floor(time) % 60
 
-  return `${minute}:${second}`
+  return `${minute}:${String(second).padStart(2, '0')}`
 }

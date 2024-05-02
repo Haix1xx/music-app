@@ -20,11 +20,14 @@ const UrlConfig: any = {
     genres: `/api/v1/genres`,
     albums: `/api/v1/albums`,
     getAlbum: (id: string) => `/api/v1/albums/${id}`,
+    albumAndTracks: (id: string) => `/api/v1/albums/${id}/tracks`,
     getGenresById: (genreId: string) => `/api/v1/genres/${genreId}`,
     getTracksByArtist: (artistId: string, limit: number = 5, page: number = 1) =>
       `/api/v1/artists/${artistId}/tracks?limit=${limit}&page=${page}`,
     getAlbumsByArtist: (artistId: string, limit: number = 5, page: number = 1) =>
-      `/api/v1/artists/${artistId}/albums?limit=${limit}&page=${page}`
+      `/api/v1/artists/${artistId}/albums?limit=${limit}&page=${page}`,
+    getSinglesByArtist: (artistId: string, limit: number = 5, page: number = 1) =>
+      `/api/v1/artists/${artistId}/singles?limit=${limit}&page=${page}`
   },
   user: {
     login: `${process.env.NEXT_APP_BEEGIN_DOMAIN}/api/v1/users/login`,

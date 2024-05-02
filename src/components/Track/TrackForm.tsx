@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 'use client'
-import { useState } from 'react'
+import { Dispatch, SetStateAction, useState } from 'react'
 import { styled } from '@mui/material/styles'
 
 import { Track } from '@/types/track'
@@ -14,7 +14,9 @@ import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 import UrlConfig from '@/config/urlConfig'
 import useSnackbar from '@/context/snackbarContext'
 import { useSearchParams, useRouter } from 'next/navigation'
-import { Album } from '@/types/album'
+import { Album, TrackOrder } from '@/types/album'
+import { TrackInfo } from '@/types/TrackInfo'
+import CustomSnackbar from '../common/Snackbar'
 
 const BORDER_RADIUS = '16px'
 
@@ -144,8 +146,10 @@ const steps = ['Track Information', 'Art Cover', 'Audio File']
 
 interface TrackFormProps {
   album?: Album
+  setAlbum?: Dispatch<SetStateAction<Album | undefined>>
+  handleClose?: () => void
 }
-export default function TrackForm({ album }: TrackFormProps) {
+export default function TrackForm({ album, setAlbum, handleClose }: TrackFormProps) {
   const axios = useAxiosPrivate()
   const [formValues, setFormValues] = useState<Track>({
     artist: '',
@@ -274,15 +278,42 @@ export default function TrackForm({ album }: TrackFormProps) {
           'Content-Type': 'multipart/form-data'
         }
       })
-      console.log(response.data)
-      setSuccess(true)
+      if (response.data.status === 'success') {
+        setSuccess(true)
+        setSnack({
+          open: true,
+          message: 'Create new track successfully',
+          type: 'success'
+        })
+        if (album && handleClose && setAlbum) {
+          let newAlbum = { ...album }
+          let { tracks } = newAlbum
+          const track = response.data.data.data.track as TrackInfo
+          const trackOrder = {
+            order: album.tracks.length,
+            track: track
+          } as TrackOrder
+          tracks.push(trackOrder)
+          newAlbum.tracks = tracks
+          setAlbum(newAlbum)
+          handleClose()
+        } else {
+          router.push(returnUrl)
+        }
+      } else {
+        setSuccess(false)
+        setSnack({
+          open: true,
+          message: 'an error occured while creating new track',
+          type: 'error'
+        })
+      }
       setIsSubmitting(false)
-      router.push(returnUrl)
     } catch (err) {
       setIsSubmitting(false)
       setSnack({
         open: true,
-        message: 'an error occured while creating new account',
+        message: 'an error occured while creating new single',
         type: 'error'
       })
     }
@@ -319,68 +350,71 @@ export default function TrackForm({ album }: TrackFormProps) {
     }
   }
   return (
-    <Container sx={{ position: 'relative' }}>
-      <StyledRoot>
-        <StyledForm>
-          <StyledContent>
-            <Box sx={{ marginBottom: '20px' }}>
-              <Typography variant='h4' gutterBottom className='mt-6 mb-6'>
-                Create your brand new track
-              </Typography>
+    <>
+      <CustomSnackbar />
+      <Container sx={{ position: 'relative' }}>
+        <StyledRoot>
+          <StyledForm>
+            <StyledContent>
+              <Box sx={{ marginBottom: '20px' }}>
+                <Typography variant='h4' gutterBottom className='mt-6 mb-6'>
+                  Create your brand new track
+                </Typography>
 
-              <Stepper alternativeLabel activeStep={activeStep} connector={<ColorlibConnector />}>
-                {steps.map((label) => (
-                  <Step key={label}>
-                    <StepLabel StepIconComponent={ColorlibStepIcon}>{label}</StepLabel>
-                  </Step>
-                ))}
-              </Stepper>
-            </Box>
+                <Stepper alternativeLabel activeStep={activeStep} connector={<ColorlibConnector />}>
+                  {steps.map((label) => (
+                    <Step key={label}>
+                      <StepLabel StepIconComponent={ColorlibStepIcon}>{label}</StepLabel>
+                    </Step>
+                  ))}
+                </Stepper>
+              </Box>
 
-            <CreateTrackForm
-              step={activeStep}
-              formErrors={formErrors}
-              formValues={formValues}
-              setFormErrors={setFormErrors}
-              setFormValues={setFormValues}
-              setCropper={setCropper}
-              releaseDate={album?.releaseDate}
-              coverPath={album?.coverPath}
-            />
-            <Stack direction={'row'} justifyContent={'space-between'} className='w-full' sx={{ paddingTop: '10px' }}>
-              {activeStep !== 0 ? <Button onClick={_handleBack}>Back</Button> : <Box></Box>}
-              <div>
-                <Button
-                  type='submit'
-                  variant='contained'
-                  color='primary'
-                  disabled={isSubmitting ? true : false}
-                  onClick={_handleSubmit}
-                  sx={{
-                    background: isSubmitting
-                      ? //@ts-ignore
-                        (theme) => `${theme.palette.disabled}!important`
-                      : (theme) => `${theme.palette.secondary.main}!important`
-                  }}
-                >
-                  {isLastStep ? (
-                    isSubmitting ? (
-                      <CircularProgress
-                        size={15}
-                        sx={{ color: (theme) => theme.palette.secondary.dark, margin: '5px 20px' }}
-                      />
+              <CreateTrackForm
+                step={activeStep}
+                formErrors={formErrors}
+                formValues={formValues}
+                setFormErrors={setFormErrors}
+                setFormValues={setFormValues}
+                setCropper={setCropper}
+                releaseDate={album?.releaseDate}
+                coverPath={album?.coverPath}
+              />
+              <Stack direction={'row'} justifyContent={'space-between'} className='w-full' sx={{ paddingTop: '10px' }}>
+                {activeStep !== 0 ? <Button onClick={_handleBack}>Back</Button> : <Box></Box>}
+                <div>
+                  <Button
+                    type='submit'
+                    variant='contained'
+                    color='primary'
+                    disabled={isSubmitting ? true : false}
+                    onClick={_handleSubmit}
+                    sx={{
+                      background: isSubmitting
+                        ? //@ts-ignore
+                          (theme) => `${theme.palette.disabled}!important`
+                        : (theme) => `${theme.palette.secondary.main}!important`
+                    }}
+                  >
+                    {isLastStep ? (
+                      isSubmitting ? (
+                        <CircularProgress
+                          size={15}
+                          sx={{ color: (theme) => theme.palette.secondary.dark, margin: '5px 20px' }}
+                        />
+                      ) : (
+                        'Upload track'
+                      )
                     ) : (
-                      'Upload track'
-                    )
-                  ) : (
-                    'Next'
-                  )}
-                </Button>
-              </div>
-            </Stack>
-          </StyledContent>
-        </StyledForm>
-      </StyledRoot>
-    </Container>
+                      'Next'
+                    )}
+                  </Button>
+                </div>
+              </Stack>
+            </StyledContent>
+          </StyledForm>
+        </StyledRoot>
+      </Container>
+    </>
   )
 }
