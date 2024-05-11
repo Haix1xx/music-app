@@ -13,6 +13,7 @@ import { TrackInfo } from '@/types/TrackInfo'
 import TrackPlayer, { TrackPlayerRef } from '@/components/Track/TrackPlayer'
 import { useAuth } from '@/context/AuthContext'
 import { useRouter } from 'next/navigation'
+import PageNotFound from '@/components/404/PageNotFound'
 
 export default function Page({ params }: { params: { id: string } }) {
   const isMobile = useResponsive('down', 'sm')
@@ -103,16 +104,20 @@ export default function Page({ params }: { params: { id: string } }) {
           </Container>
         </Box>
       </Modal>
-      <Container maxWidth='xl' sx={{ maxHeight: '100%', overflow: 'auto', paddingBottom: '60px' }}>
-        {album && <AlbumHeader album={album} />}
-        <Stack direction='row' alignItems='center' justifyContent='flex-end' spacing={2}>
-          <Button variant='contained' onClick={() => setOpenTrackForm(true)}>
-            Create track
-          </Button>
-        </Stack>
+      {album ? (
+        <Container maxWidth='xl' sx={{ maxHeight: '100%', overflow: 'auto', paddingBottom: '60px' }}>
+          <AlbumHeader album={album} />
+          <Stack direction='row' alignItems='center' justifyContent='flex-end' spacing={2}>
+            <Button variant='contained' onClick={() => setOpenTrackForm(true)}>
+              Create track
+            </Button>
+          </Stack>
 
-        {album && <TrackTable album={album} setAlbum={setAlbum} setSelectedTrack={setSelectedTrack} />}
-      </Container>
+          <TrackTable album={album} setAlbum={setAlbum} setSelectedTrack={setSelectedTrack} />
+        </Container>
+      ) : (
+        <PageNotFound />
+      )}
     </>
   )
 }

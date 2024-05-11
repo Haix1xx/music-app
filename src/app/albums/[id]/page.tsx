@@ -5,12 +5,13 @@ import UrlConfig from '@/config/urlConfig'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 import useResponsive from '@/hooks/useResponsive'
 import { Album } from '@/types/album'
-import { Box, Button, Container, Modal, Stack } from '@mui/material'
+import { Box, Container, Modal, Stack } from '@mui/material'
 import { useEffect, useRef, useState } from 'react'
-import TrackBox from '@/components/Track/TrackBox'
 import { TrackInfo } from '@/types/TrackInfo'
 import TrackPlayer, { TrackPlayerRef } from '@/components/Track/TrackPlayer'
 import TrackTable from './TrackTable'
+import { useRouter } from 'next/navigation'
+import PageNotFound from '@/components/404/PageNotFound'
 
 export default function Page({ params }: { params: { id: string } }) {
   const isMobile = useResponsive('down', 'sm')
@@ -18,6 +19,7 @@ export default function Page({ params }: { params: { id: string } }) {
   const [selectedTrack, setSelectedTrack] = useState<TrackInfo | null>(null)
   const [openTrackPlayer, setOpenTrackPlayer] = useState(false)
   const trackPlayerRef = useRef<TrackPlayerRef>(null)
+  const router = useRouter()
   const handlePause = () => {
     if (trackPlayerRef.current) {
       trackPlayerRef.current.pause()
@@ -28,12 +30,11 @@ export default function Page({ params }: { params: { id: string } }) {
     const fetchAlbum = async () => {
       try {
         const response = await axios.get(UrlConfig.common.albumAndTracks(params.id))
+        console.log(response.data)
         if (response.data.status === 'success') {
           setAlbum(response.data.data.data)
         }
-      } catch (err) {
-        return
-      }
+      } catch (err) {}
     }
 
     fetchAlbum()
@@ -71,11 +72,16 @@ export default function Page({ params }: { params: { id: string } }) {
           </Container>
         </Box>
       </Modal>
-      <Container maxWidth='xl' sx={{ maxHeight: '100%', overflow: 'auto', paddingBottom: '60px' }}>
-        {album && <AlbumHeader album={album} />}
-        <Stack direction='row' alignItems='center' justifyContent='flex-end' spacing={2}></Stack>
-        {album && <TrackTable album={album} setSelectedTrack={setSelectedTrack} />}
-      </Container>
+
+      {album ? (
+        <Container maxWidth='xl' sx={{ maxHeight: '100%', overflow: 'auto', paddingBottom: '60px' }}>
+          <AlbumHeader album={album} />
+          <Stack direction='row' alignItems='center' justifyContent='flex-end' spacing={2}></Stack>
+          <TrackTable album={album} setSelectedTrack={setSelectedTrack} />
+        </Container>
+      ) : (
+        <PageNotFound />
+      )}
     </>
   )
 }

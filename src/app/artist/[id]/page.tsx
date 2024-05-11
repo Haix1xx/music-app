@@ -1,7 +1,7 @@
 'use client'
+import PageNotFound from '@/components/404/PageNotFound'
 import ProfileHeader from '@/components/Artist/ProfileHeader'
 import MediaBox from '@/components/Track/MediaBox'
-import TrackBox from '@/components/Track/TrackBox'
 import UrlConfig from '@/config/urlConfig'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 import { Album } from '@/types/album'
@@ -85,7 +85,7 @@ export default function Page({ params }: { params: { id: string } }) {
   return (
     <>
       <title> Artist </title>
-      {artist && (
+      {artist ? (
         <Container maxWidth='xl' sx={{ maxHeight: '100%', overflow: 'auto', paddingBottom: '60px' }}>
           <ProfileHeader avatar={artist?.avatar} artistName={artist.displayname} />
           <Box sx={{ paddingBottom: '30px' }}>
@@ -123,6 +123,8 @@ export default function Page({ params }: { params: { id: string } }) {
             </Stack>
           </Box>
         </Container>
+      ) : (
+        <PageNotFound />
       )}
     </>
   )

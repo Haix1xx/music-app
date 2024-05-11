@@ -7,7 +7,6 @@ import { Dispatch, SetStateAction, useState } from 'react'
 import TrackInfoBox from './TrackInfoBox'
 import { Close } from '@mui/icons-material'
 import useSnackbar from '@/context/snackbarContext'
-import CustomSnackbar from '@/components/common/Snackbar'
 import { FeaturedPlaylist, TrackOrder } from '@/types/featuredPlaylist'
 
 interface AddTrackBoxProps {

@@ -1,6 +1,4 @@
 'use client'
-import AlbumHeader from '@/components/Album/AlbumHeader'
-import TrackForm from '@/components/Track/TrackForm'
 import UrlConfig from '@/config/urlConfig'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 import useResponsive from '@/hooks/useResponsive'
@@ -8,15 +6,14 @@ import { Album } from '@/types/album'
 import { Box, Button, Container, Modal, Stack } from '@mui/material'
 import { useEffect, useRef, useState } from 'react'
 // import TrackTable from './TrackTable'
-import TrackBox from '@/components/Track/TrackBox'
 import { TrackInfo } from '@/types/TrackInfo'
 import TrackPlayer, { TrackPlayerRef } from '@/components/Track/TrackPlayer'
 import { useAuth } from '@/context/AuthContext'
-import { useRouter } from 'next/navigation'
 import { FeaturedPlaylist } from '@/types/featuredPlaylist'
 import PlaylistHeader from '@/components/Playlist/PlaylistHeader'
 import TrackTable from './TrackTable'
 import AddTrackBox from './AddTrackBox'
+import PageNotFound from '@/components/404/PageNotFound'
 
 export default function Page({ params }: { params: { id: string } }) {
   const isMobile = useResponsive('down', 'sm')
@@ -25,7 +22,6 @@ export default function Page({ params }: { params: { id: string } }) {
   const [openAddBox, setOpenAddBox] = useState(false)
   const [openTrackPlayer, setOpenTrackPlayer] = useState(false)
   const trackPlayerRef = useRef<TrackPlayerRef>(null)
-  const router = useRouter()
   const handlePause = () => {
     if (trackPlayerRef.current) {
       trackPlayerRef.current.pause()
@@ -103,17 +99,19 @@ export default function Page({ params }: { params: { id: string } }) {
           </Container>
         </Box>
       </Modal>
-      <Container maxWidth='xl' sx={{ maxHeight: '100%', overflow: 'auto', paddingBottom: '60px' }}>
-        {playlist && <PlaylistHeader playlist={playlist} />}
-        <Stack direction='row' alignItems='center' justifyContent='flex-end' spacing={2}>
-          <Button variant='contained' onClick={() => setOpenAddBox(true)}>
-            Add Track
-          </Button>
-        </Stack>
-
-        {/* {album && <TrackTable album={album} setAlbum={setAlbum} setSelectedTrack={setSelectedTrack} />} */}
-        {playlist && <TrackTable playlist={playlist} setPlaylist={setPlaylist} setSelectedTrack={setSelectedTrack} />}
-      </Container>
+      {playlist ? (
+        <Container maxWidth='xl' sx={{ maxHeight: '100%', overflow: 'auto', paddingBottom: '60px' }}>
+          <PlaylistHeader playlist={playlist} />
+          <Stack direction='row' alignItems='center' justifyContent='flex-end' spacing={2}>
+            <Button variant='contained' onClick={() => setOpenAddBox(true)}>
+              Add Track
+            </Button>
+          </Stack>
+          <TrackTable playlist={playlist} setPlaylist={setPlaylist} setSelectedTrack={setSelectedTrack} />
+        </Container>
+      ) : (
+        <PageNotFound />
+      )}
     </>
   )
 }

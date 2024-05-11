@@ -2,7 +2,7 @@ import TrackPopover from '@/components/Track/TrackPopover'
 import { TrackInfo } from '@/types/TrackInfo'
 import { Album } from '@/types/album'
 import TimeFormatter from '@/utils/timeFormatter'
-import { MoreHoriz, PlayArrow } from '@mui/icons-material'
+import { PlayArrow } from '@mui/icons-material'
 import {
   Avatar,
   IconButton,

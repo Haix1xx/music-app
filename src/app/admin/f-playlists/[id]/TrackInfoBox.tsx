@@ -1,7 +1,7 @@
 import { TrackInfo } from '@/types/TrackInfo'
 import TimeFormatter from '@/utils/timeFormatter'
 import { PlaylistAdd, PlaylistRemove } from '@mui/icons-material'
-import { Avatar, Box, Stack, Typography, Container, TableRow, TableCell, IconButton, Tooltip } from '@mui/material'
+import { Avatar, Stack, Typography, TableRow, TableCell, IconButton, Tooltip } from '@mui/material'
 
 export interface SelectedTrack {
   track: TrackInfo

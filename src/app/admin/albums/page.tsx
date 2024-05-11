@@ -10,7 +10,6 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Button,
   IconButton,
   Typography,
   Box,
@@ -19,7 +18,6 @@ import {
   TablePagination,
   Stack,
   Container,
-  Modal,
   Tooltip
 } from '@mui/material'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
@@ -30,12 +28,8 @@ import FirstPageIcon from '@mui/icons-material/FirstPage'
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft'
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight'
 import LastPageIcon from '@mui/icons-material/LastPage'
-import { Genre } from '@/types/genre'
 import CustomSnackbar from '@/components/common/Snackbar'
-import CreateGenre from '@/components/Genre/CreateGenre'
 import useResponsive from '@/hooks/useResponsive'
-import EditIcon from '@mui/icons-material/Edit'
-import { TrackInfo } from '@/types/TrackInfo'
 import { format } from '@/utils/formatDate'
 import { Album } from '@/types/album'
 import { RemoveRedEye } from '@mui/icons-material'
@@ -134,41 +128,9 @@ function Page() {
   const handleViewDetails = (id: string) => {
     router.push(`/albums/${id}`)
   }
-  //   const handleOpenEditModal = (index: number) => {
-  //     setSelectedTrack(data[index])
-  //     setOpen(true)
-  //   }
-
-  //   const handleOpenCreateModal = () => {
-  //     setSelectedTrack(undefined)
-  //     setOpen(true)
-  //   }
-
-  //   const onModalClose = () => {
-  //     setSelectedTrack(undefined)
-  //     setOpen(false)
-  //   }
   return (
     <>
       <CustomSnackbar />
-      {/* <Modal open={open} onClose={onModalClose}>
-        <Box
-          sx={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: isMobile ? '60%' : '35%',
-            height: '250px',
-            bgcolor: 'background.paper',
-            boxShadow: 24,
-            borderRadius: 2,
-            padding: isMobile ? 3 : '20px'
-          }}
-        >
-          <CreateGenre open={open} setOpen={setOpen} genre={selectedGenre} setReload={setReload} />
-        </Box>
-      </Modal> */}
       <Container maxWidth='xl' sx={{ height: '100%', overflowY: 'auto' }}>
         <Stack direction='row' sx={{ justifyContent: 'space-between' }}>
           <Typography variant='h2'>Album Management</Typography>

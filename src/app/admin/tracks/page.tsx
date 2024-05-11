@@ -10,7 +10,6 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Button,
   IconButton,
   Typography,
   Box,
@@ -29,11 +28,8 @@ import FirstPageIcon from '@mui/icons-material/FirstPage'
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft'
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight'
 import LastPageIcon from '@mui/icons-material/LastPage'
-import { Genre } from '@/types/genre'
 import CustomSnackbar from '@/components/common/Snackbar'
-import CreateGenre from '@/components/Genre/CreateGenre'
 import useResponsive from '@/hooks/useResponsive'
-import EditIcon from '@mui/icons-material/Edit'
 import { TrackInfo } from '@/types/TrackInfo'
 import { format } from '@/utils/formatDate'
 import { RemoveRedEye } from '@mui/icons-material'

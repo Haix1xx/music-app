@@ -1,4 +1,5 @@
 'use client'
+import PageNotFound from '@/components/404/PageNotFound'
 import TrackHeader from '@/components/Track/TrackHeader'
 import TrackPlayer, { TrackPlayerRef } from '@/components/Track/TrackPlayer'
 import TrackPopover from '@/components/Track/TrackPopover'
@@ -23,6 +24,7 @@ import {
   TableRow,
   Typography
 } from '@mui/material'
+import { useRouter } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 
 export default function Page({ params }: { params: { id: string } }) {
@@ -32,7 +34,7 @@ export default function Page({ params }: { params: { id: string } }) {
   const [openTrackPlayer, setOpenTrackPlayer] = useState(false)
   const trackPlayerRef = useRef<TrackPlayerRef>(null)
   const axios = useAxiosPrivate()
-
+  const router = useRouter()
   const handlePause = () => {
     if (trackPlayerRef.current) {
       trackPlayerRef.current.pause()
@@ -46,9 +48,7 @@ export default function Page({ params }: { params: { id: string } }) {
         if (response.data.status === 'success') {
           setTrack(response.data.data.data as TrackInfo)
         }
-      } catch (err) {
-        return
-      }
+      } catch (err) {}
     }
 
     fetchTrack()
@@ -84,10 +84,9 @@ export default function Page({ params }: { params: { id: string } }) {
           </Box>
         </Modal>
       )}
-      <Container maxWidth='xl' sx={{ maxHeight: '100%', overflow: 'auto', paddingBottom: '60px' }}>
-        {track && <TrackHeader track={track} />}
-
-        {track && (
+      {track ? (
+        <Container maxWidth='xl' sx={{ maxHeight: '100%', overflow: 'auto', paddingBottom: '60px' }}>
+          <TrackHeader track={track} />
           <TableContainer>
             <Table>
               <TableHead>
@@ -136,8 +135,10 @@ export default function Page({ params }: { params: { id: string } }) {
               </TableBody>
             </Table>
           </TableContainer>
-        )}
-      </Container>
+        </Container>
+      ) : (
+        <PageNotFound />
+      )}
     </>
   )
 }

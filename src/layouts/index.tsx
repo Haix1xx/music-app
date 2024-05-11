@@ -20,7 +20,6 @@ import { useAuth } from '@/context/AuthContext'
 import { useRouter } from 'next/navigation'
 import Loader from '@/components/common/Loader/Loader'
 import ProfilePopover from './ProfilePopover/index'
-import SearchTextbox from './SearchTextbox/SearchTextbox'
 import NotificationPopover from '@/components/Notification/NotificationPopover'
 
 // ----------------------------------------------------------------------

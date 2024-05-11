@@ -97,7 +97,6 @@ export default function Page({ params }: { params: { id: string } }) {
       _id: track?._id ?? '',
       releaseDate: track?.releaseDate ?? ''
     })
-    console.log('404', track)
   }, [track])
 
   const checkFormValues = (fields: (keyof Track)[]) => {
