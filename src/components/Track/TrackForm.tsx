@@ -160,7 +160,7 @@ export default function TrackForm({ album, setAlbum, handleClose }: TrackFormPro
     collaborators: [],
     duration: 0,
     isPublic: false,
-    totalStreaam: 0,
+    totalStreams: 0,
     writtenBy: '',
     producedBy: '',
     source: '',

@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { forwardRef } from 'react'
 
-interface TrackBoxProps {
+interface MediaBoxProps {
   cover: string
   title: string
   releaseDate: string
@@ -12,16 +12,16 @@ interface TrackBoxProps {
   id: string
   artist: ArtistProfile
 }
-const TrackBox = forwardRef<HTMLDivElement, TrackBoxProps>((props, ref) => {
+const MediaBox = forwardRef<HTMLDivElement, MediaBoxProps>((props, ref) => {
   const { cover, title, type, releaseDate, id, artist } = props
   const router = useRouter()
   const handleNavigation = () => {
     switch (type.toLowerCase()) {
       case 'album':
-        router.push(`/artist/album/${id}`)
+        router.push(`/albums/${id}`)
         break
       case 'single':
-        router.push(`/artist/track/${id}`)
+        router.push(`/tracks/${id}`)
         break
     }
   }
@@ -65,4 +65,4 @@ const TrackBox = forwardRef<HTMLDivElement, TrackBoxProps>((props, ref) => {
   )
 })
 
-export default TrackBox
+export default MediaBox

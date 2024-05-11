@@ -146,7 +146,7 @@ export default function LoginPage() {
       } else if (user.role === 'business') {
         router.push('/business/advertisement')
       } else if (user.role === 'artist') {
-        router.push('/artist/')
+        router.push('/artist')
       } else {
         router.push('/home')
       }

@@ -1,0 +1,7 @@
+.popOverItem {
+  padding: '10px';
+}
+
+.popOverItem:hover {
+  background-color: '#e5dff2';
+}

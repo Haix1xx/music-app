@@ -11,7 +11,7 @@ import { SessionProvider } from 'next-auth/react'
 import { AuthProvider, useAuth } from '@/context/AuthContext'
 import { Snackbar } from '@mui/material'
 import { SnackbarContextProvider } from '@/context/snackbarContext'
-import { PostProvider } from '@/context/PostContext'
+
 import { NotificationProvider } from '@/context/NotificationContext'
 import AnalyticsOutlinedIcon from '@mui/icons-material/AnalyticsOutlined'
 import AnalyticsIcon from '@mui/icons-material/Analytics'
@@ -23,7 +23,23 @@ import SummarizeOutlinedIcon from '@mui/icons-material/SummarizeOutlined'
 import SummarizeIcon from '@mui/icons-material/Summarize'
 import ContactPageIcon from '@mui/icons-material/ContactPage'
 import ContactPageOutlinedIcon from '@mui/icons-material/ContactPageOutlined'
-import { LibraryMusicOutlined, LibraryMusic, Dashboard, DashboardOutlined } from '@mui/icons-material'
+import InterpreterModeIcon from '@mui/icons-material/InterpreterMode'
+import InterpreterModeOutlinedIcon from '@mui/icons-material/InterpreterModeOutlined'
+import LibraryMusicIcon from '@mui/icons-material/LibraryMusic'
+import LibraryMusicOutlinedIcon from '@mui/icons-material/LibraryMusicOutlined'
+import AlbumIcon from '@mui/icons-material/Album'
+import AlbumOutlinedIcon from '@mui/icons-material/AlbumOutlined'
+import PlaylistPlayIcon from '@mui/icons-material/PlaylistPlay'
+import PlaylistPlayOutlinedIcon from '@mui/icons-material/PlaylistPlayOutlined'
+
+import {
+  LibraryMusicOutlined,
+  LibraryMusic,
+  Dashboard,
+  DashboardOutlined,
+  ArtTrackOutlined,
+  ArtTrack
+} from '@mui/icons-material'
 import TanstackProvider from '@/providers/TanstackProvider'
 import { FaHouseChimney, FaRegUser, FaUser, FaCircleUser, FaRegCircleUser } from 'react-icons/fa6'
 import { FaCompass, FaRegCompass } from 'react-icons/fa'
@@ -48,31 +64,7 @@ const menuItems = [
     iconActive: <AiFillHome />,
     label: 'Home',
     path: '/home'
-  },
-  {
-    icon: <FaRegCompass />,
-    iconActive: <FaCompass />,
-    label: 'Explore',
-    path: '/explore'
-  },
-  {
-    icon: <BiMessageSquareDetail />,
-    iconActive: <BiSolidMessageSquareDetail />,
-    label: 'Messages',
-    path: '/messages'
-  },
-  {
-    icon: <FaRegCircleUser />,
-    iconActive: <FaCircleUser />,
-    label: 'Profile',
-    path: '/profile'
   }
-  // {
-  //   icon: <SettingsOutlined />,
-  //   iconActive: <SettingsRoundedIcon />,
-  //   label: 'Settings',
-  //   path: '/settings'
-  // }
 ]
 
 const menuAdminItems = [
@@ -91,20 +83,38 @@ const menuAdminItems = [
   {
     icon: <PeopleOutlineOutlinedIcon />,
     iconActive: <PeopleAltIcon />,
-    label: 'User Management',
+    label: 'Users',
     path: '/admin/user-management'
   },
   {
-    icon: <ContactPageOutlinedIcon />,
-    iconActive: <ContactPageIcon />,
-    label: 'Business Management',
-    path: '/admin/business-management'
+    icon: <InterpreterModeOutlinedIcon />,
+    iconActive: <InterpreterModeIcon />,
+    label: 'Artists',
+    path: '/admin/artists'
   },
   {
-    icon: <SummarizeOutlinedIcon />,
-    iconActive: <SummarizeIcon />,
-    label: 'Advertisements',
-    path: '/admin/advertisements'
+    icon: <LibraryMusicOutlinedIcon />,
+    iconActive: <LibraryMusicIcon />,
+    label: 'Tracks',
+    path: '/admin/tracks'
+  },
+  {
+    icon: <AlbumOutlinedIcon />,
+    iconActive: <AlbumIcon />,
+    label: 'Albums',
+    path: '/admin/albums'
+  },
+  {
+    icon: <PlaylistPlayOutlinedIcon />,
+    iconActive: <PlaylistPlayIcon />,
+    label: 'Featured Playlists',
+    path: '/admin/f-playlists'
+  },
+  {
+    icon: <ArtTrackOutlined />,
+    iconActive: <ArtTrack />,
+    label: 'Genres',
+    path: '/admin/genres'
   }
 ]
 
@@ -177,23 +187,21 @@ export default function RootLayout({ children, session }: { children: React.Reac
             <SnackbarContextProvider>
               <SessionProvider session={session}>
                 <NotificationProvider>
-                  <PostProvider>
-                    {noLayoutPaths.includes(pathname) || pathname.startsWith('/verify') ? (
-                      <ThemeProvider>{children}</ThemeProvider>
-                    ) : (
-                      <ThemeProvider>
-                        {role === 'admin' ? (
-                          <Layout menuItems={menuAdminItems}>{children}</Layout>
-                        ) : role === 'business' ? (
-                          <Layout menuItems={menuBusinessItems}>{children}</Layout>
-                        ) : role === 'artist' ? (
-                          <Layout menuItems={menuArtistItems}>{children}</Layout>
-                        ) : (
-                          <Layout menuItems={menuItems}>{children}</Layout>
-                        )}
-                      </ThemeProvider>
-                    )}
-                  </PostProvider>
+                  {noLayoutPaths.includes(pathname) || pathname.startsWith('/verify') ? (
+                    <ThemeProvider>{children}</ThemeProvider>
+                  ) : (
+                    <ThemeProvider>
+                      {role === 'admin' ? (
+                        <Layout menuItems={menuAdminItems}>{children}</Layout>
+                      ) : role === 'business' ? (
+                        <Layout menuItems={menuBusinessItems}>{children}</Layout>
+                      ) : role === 'artist' ? (
+                        <Layout menuItems={menuArtistItems}>{children}</Layout>
+                      ) : (
+                        <Layout menuItems={menuItems}>{children}</Layout>
+                      )}
+                    </ThemeProvider>
+                  )}
                 </NotificationProvider>
               </SessionProvider>
             </SnackbarContextProvider>

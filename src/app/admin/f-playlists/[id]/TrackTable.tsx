@@ -18,7 +18,6 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import Switch from '@mui/material/Switch'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
-import FilterListIcon from '@mui/icons-material/FilterList'
 import SaveIcon from '@mui/icons-material/Save'
 import { visuallyHidden } from '@mui/utils'
 
@@ -36,6 +35,7 @@ import UrlConfig from '@/config/urlConfig'
 import CustomSnackbar from '@/components/common/Snackbar'
 import useSnackbar from '@/context/snackbarContext'
 import { useRouter } from 'next/navigation'
+import { FeaturedPlaylist } from '@/types/featuredPlaylist'
 interface HeadCell {
   disablePadding: boolean
   id: keyof TrackInfo | keyof TrackOrder
@@ -234,13 +234,13 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
 }
 
 interface TrackTableProps {
-  album: Album
-  setAlbum: Dispatch<SetStateAction<Album | undefined>>
+  playlist: FeaturedPlaylist
+  setPlaylist: Dispatch<SetStateAction<FeaturedPlaylist | undefined>>
   setSelectedTrack: Dispatch<SetStateAction<TrackInfo | null>>
 }
 
 export default function TrackTable(props: TrackTableProps) {
-  const { album, setAlbum, setSelectedTrack } = props
+  const { playlist, setPlaylist, setSelectedTrack } = props
   const [order, setOrder] = useState<Order>('asc')
   const [orderBy, setOrderBy] = useState<keyof TrackInfo | keyof TrackOrder>('order')
   const [selected, setSelected] = useState<readonly number[]>([])
@@ -259,18 +259,18 @@ export default function TrackTable(props: TrackTableProps) {
 
   const handleSetSelectedTrack = () => {
     if (selected.length === 1) {
-      setSelectedTrack(album.tracks[selected[0]].track)
+      setSelectedTrack(playlist.tracks[selected[0]].track)
     }
   }
 
   const handleEditTrack = () => {
     if (selected.length === 1) {
-      router.push(`/artist/track/${album.tracks[selected[0]].track._id}`)
+      router.push(`/artist/track/${playlist.tracks[selected[0]].track._id}`)
     }
   }
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelected = album.tracks.map((n) => n.order)
+      const newSelected = playlist.tracks.map((n) => n.order)
       setSelected(newSelected)
       return
     }
@@ -309,15 +309,15 @@ export default function TrackTable(props: TrackTableProps) {
   const isSelected = (id: number) => selected.indexOf(id) !== -1
 
   // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - album.tracks.length) : 0
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - playlist.tracks.length) : 0
 
-  const visibleRows = () => album.tracks.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+  const visibleRows = () => playlist.tracks.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 
   // changeValue = -1 -> up
   // changeValue = 1 -> down
   const changeOrder = (changeValue: number) => {
-    const copyAlbum = { ...album }
-    let { tracks } = copyAlbum
+    const copyPlaylist = { ...playlist }
+    let { tracks } = copyPlaylist
 
     let changedOrderTracks: TrackOrder[] = []
 
@@ -334,8 +334,8 @@ export default function TrackTable(props: TrackTableProps) {
     newOrderTracks.forEach((value, index) => {
       value.order = index
     })
-    copyAlbum.tracks = newOrderTracks
-    setAlbum(copyAlbum)
+    copyPlaylist.tracks = newOrderTracks
+    setPlaylist(copyPlaylist)
     let newSelected: number[] = []
     for (let i = 0; i < selected.length; i++) {
       newSelected.push(selected[0] + changeValue + i)
@@ -351,7 +351,7 @@ export default function TrackTable(props: TrackTableProps) {
   }
 
   const handleDownTrackOrder = () => {
-    if (selected[selected.length - 1] === album.tracks.length - 1) {
+    if (selected[selected.length - 1] === playlist.tracks.length - 1) {
       setSelected([])
       return
     }
@@ -359,9 +359,13 @@ export default function TrackTable(props: TrackTableProps) {
   }
 
   const handleSaveChanges = async () => {
+    console.log('saving...')
     try {
-      const response = await axios.patch(UrlConfig.common.albumAndTracks(album._id), {
-        tracks: album.tracks
+      const response = await axios.patch(UrlConfig.common.playlistAndTracks(playlist._id), {
+        tracks: playlist.tracks.map((item) => ({
+          order: item.order,
+          track: item.track._id
+        }))
       })
 
       if (response.data.status === 'success') {
@@ -397,7 +401,7 @@ export default function TrackTable(props: TrackTableProps) {
                 orderBy={orderBy}
                 onSelectAllClick={handleSelectAllClick}
                 onRequestSort={handleRequestSort}
-                rowCount={album.tracks.length}
+                rowCount={playlist.tracks.length}
               />
               <TableBody>
                 {visibleRows().map((row, index) => {
@@ -432,8 +436,8 @@ export default function TrackTable(props: TrackTableProps) {
                           <TrackTitle
                             key={row.track._id}
                             title={row.track.title}
-                            coverPath={album.coverPath}
-                            artists={`${album.artist.profile.displayname}`}
+                            coverPath={row.track.coverPath}
+                            artists={row.track.artist.profile.displayname}
                           />
                         </Stack>
                       </TableCell>
@@ -456,7 +460,7 @@ export default function TrackTable(props: TrackTableProps) {
           <TablePagination
             rowsPerPageOptions={[5, 10, 15, 20]}
             component='div'
-            count={album.tracks.length}
+            count={playlist.tracks.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}

@@ -219,7 +219,8 @@ export default function Page() {
     firstname: '',
     lastname: '',
     // slug: '',
-    gender: true
+    gender: true,
+    displayname: ''
     // preferences: []
   })
   const [formErrors, setFormErrors] = useState<Register>({
@@ -230,7 +231,8 @@ export default function Page() {
     lastname: true,
     // address: true,
     bio: true,
-    gender: true
+    gender: true,
+    displayname: true
     // slug: true
   })
   const [success, setSuccess] = useState<boolean>(false)

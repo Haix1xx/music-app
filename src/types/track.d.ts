@@ -6,7 +6,7 @@ export interface Track {
   releaseDate?: string | boolean
   isPublic?: boolean
   duration?: number | boolean
-  totalStreaam?: number | boolean
+  totalStreams?: number | boolean
   album?: string | boolean
   artist: string | boolean
   collaborators?: string[] | boolean

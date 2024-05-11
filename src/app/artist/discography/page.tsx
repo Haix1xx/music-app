@@ -1,5 +1,5 @@
 'use client'
-import { Container, Stack } from '@mui/material'
+import { Box, Container, Stack, Typography } from '@mui/material'
 
 import ProfileHeader from '@/components/Artist/ProfileHeader'
 import { useEffect, useRef, useState } from 'react'
@@ -10,6 +10,8 @@ import TrackBox from '@/components/Track/TrackBox'
 import { TrackInfo } from '@/types/TrackInfo'
 import { User } from '@/types/user'
 import { Single } from '@/types/single'
+import { Album } from '@/types/album'
+import { ArtistProfile } from '@/types/artist'
 
 export default function Page() {
   // responsive
@@ -47,7 +49,7 @@ export default function Page() {
   const axios = useAxiosPrivate()
 
   const [latestSingles, setLastestSingles] = useState<Single[]>([])
-  const [latestAlbums, setLatestAlbums] = useState<any[]>([])
+  const [latestAlbums, setLatestAlbums] = useState<Album[]>([])
   const [user, setUser] = useState<User | null>()
   const auth = useAuth()
   useEffect(() => {
@@ -73,38 +75,45 @@ export default function Page() {
     setUser(auth.user)
   }, [auth])
   return (
-    <Container maxWidth='xl' sx={{ maxHeight: '100%', overflow: 'auto', paddingBottom: '60px' }}>
-      <ProfileHeader
-        avatar={user?.profile.avatar}
-        artistName={`${user?.profile.firstname} ${user?.profile.lastname}`}
-      />
+    <>
+      <title> Discography </title>
+      <Container maxWidth='xl' sx={{ maxHeight: '100%', overflow: 'auto', paddingBottom: '60px' }}>
+        <ProfileHeader avatar={user?.profile.avatar} artistName={`${user?.profile.displayname}`} />
+        <Box sx={{ paddingBottom: '30px' }}>
+          <Typography variant='h3'>Singles</Typography>
+          <Stack spacing={3} direction='row' sx={{ flexWrap: 'wrap' }} ref={trackStackRef}>
+            {latestSingles.slice(0, visibleTracks).map((single, index) => (
+              <TrackBox
+                cover={single.track.coverPath ?? ''}
+                releaseDate={single.track.releaseDate ?? ''}
+                title={single.track.title}
+                key={single.track._id}
+                type='Single'
+                id={single.track._id}
+                artist={single.artist.profile as ArtistProfile}
+                ref={index === 0 ? trackBoxRef : null}
+              />
+            ))}
+          </Stack>
+        </Box>
 
-      <Stack spacing={3} direction='row' sx={{ flexWrap: 'wrap' }} ref={trackStackRef}>
-        {latestSingles.slice(0, visibleTracks).map((single, index) => (
-          <TrackBox
-            cover={single.track.coverPath ?? ''}
-            releaseDate={single.track.releaseDate ?? ''}
-            title={single.track.title}
-            key={single.track._id}
-            type='Single'
-            id={single.track._id}
-            ref={index === 0 ? trackBoxRef : null}
-          />
-        ))}
-      </Stack>
-
-      <Stack spacing={3} direction='row'>
-        {latestAlbums.slice(0, visibleTracks).map((album) => (
-          <TrackBox
-            cover={album.coverPath ?? ''}
-            releaseDate={album.releaseDate ?? ''}
-            title={album.title}
-            key={album._id}
-            id={album._id}
-            type='Album'
-          />
-        ))}
-      </Stack>
-    </Container>
+        <Box sx={{ paddingBottom: '30px' }}>
+          <Typography variant='h3'>Albums</Typography>
+          <Stack spacing={3} direction='row'>
+            {latestAlbums.slice(0, visibleTracks).map((album) => (
+              <TrackBox
+                cover={album.coverPath ?? ''}
+                releaseDate={album.releaseDate ?? ''}
+                title={album.title}
+                key={album._id}
+                id={album._id}
+                artist={album.artist.profile as ArtistProfile}
+                type='Album'
+              />
+            ))}
+          </Stack>
+        </Box>
+      </Container>
+    </>
   )
 }

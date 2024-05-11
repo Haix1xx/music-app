@@ -14,7 +14,7 @@ export default function ProfileHeader({ avatar, artistName }: ProfileHeaderProps
         <Grid item xs={12} md={9} sx={{ position: 'relative' }}>
           <Container sx={{ position: 'absolute', bottom: '0' }}>
             <Typography>
-              Verify Artist{' '}
+              Verify Artist
               {
                 <VerifiedRoundedIcon
                   sx={{

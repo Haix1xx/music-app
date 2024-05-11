@@ -8,4 +8,5 @@ export interface Register {
   bio?: string | boolean
   avatar?: string | boolean
   birthday?: Date | boolean | null
+  displayname?: string | boolean
 }

@@ -215,7 +215,9 @@ export default function PersonalRegister() {
     passwordConfirm: '',
     firstname: '',
     lastname: '',
-    gender: true
+    gender: true,
+    displayname: undefined,
+    bio: undefined
   })
   const [formErrors, setFormErrors] = useState<Register>({
     email: true,
@@ -224,7 +226,8 @@ export default function PersonalRegister() {
     firstname: true,
     lastname: true,
     bio: true,
-    gender: true
+    gender: true,
+    displayname: true
   })
   const [success, setSuccess] = useState<boolean>(false)
   const { setSnack } = useSnackbar()

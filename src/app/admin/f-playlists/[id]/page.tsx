@@ -7,18 +7,22 @@ import useResponsive from '@/hooks/useResponsive'
 import { Album } from '@/types/album'
 import { Box, Button, Container, Modal, Stack } from '@mui/material'
 import { useEffect, useRef, useState } from 'react'
-import TrackTable from './TrackTable'
+// import TrackTable from './TrackTable'
 import TrackBox from '@/components/Track/TrackBox'
 import { TrackInfo } from '@/types/TrackInfo'
 import TrackPlayer, { TrackPlayerRef } from '@/components/Track/TrackPlayer'
 import { useAuth } from '@/context/AuthContext'
 import { useRouter } from 'next/navigation'
+import { FeaturedPlaylist } from '@/types/featuredPlaylist'
+import PlaylistHeader from '@/components/Playlist/PlaylistHeader'
+import TrackTable from './TrackTable'
+import AddTrackBox from './AddTrackBox'
 
 export default function Page({ params }: { params: { id: string } }) {
   const isMobile = useResponsive('down', 'sm')
-  const [album, setAlbum] = useState<Album>()
+  const [playlist, setPlaylist] = useState<FeaturedPlaylist>()
   const [selectedTrack, setSelectedTrack] = useState<TrackInfo | null>(null)
-  const [openTrackForm, setOpenTrackForm] = useState(false)
+  const [openAddBox, setOpenAddBox] = useState(false)
   const [openTrackPlayer, setOpenTrackPlayer] = useState(false)
   const trackPlayerRef = useRef<TrackPlayerRef>(null)
   const router = useRouter()
@@ -32,16 +36,12 @@ export default function Page({ params }: { params: { id: string } }) {
   useEffect(() => {
     const fetchAlbum = async () => {
       try {
-        const response = await axios.get(UrlConfig.common.albumAndTracks(params.id))
+        const response = await axios.get(UrlConfig.common.fplaylist(params.id))
         if (response.data.status === 'success') {
-          const fetchedAlbum = response.data.data.data as Album
+          const fetchedPlaylist = response.data.data.data as FeaturedPlaylist
 
           // check if artist is owner of this album
-          if (user?._id !== fetchedAlbum.artist._id) {
-            router.push('/401')
-          } else {
-            setAlbum(response.data.data.data as Album)
-          }
+          setPlaylist(fetchedPlaylist)
         }
       } catch (err) {
         return
@@ -56,7 +56,7 @@ export default function Page({ params }: { params: { id: string } }) {
   }, [selectedTrack])
   return (
     <>
-      <Modal open={openTrackForm} onClose={() => setOpenTrackForm(false)}>
+      <Modal open={openAddBox}>
         <Box
           sx={{
             position: 'absolute',
@@ -72,7 +72,7 @@ export default function Page({ params }: { params: { id: string } }) {
           }}
         >
           <Container sx={{ alignSelf: 'center', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
-            <TrackForm album={album} setAlbum={setAlbum} handleClose={() => setOpenTrackForm(false)} />
+            <AddTrackBox setOpen={setOpenAddBox} setPlaylist={setPlaylist} />
           </Container>
         </Box>
       </Modal>
@@ -104,14 +104,15 @@ export default function Page({ params }: { params: { id: string } }) {
         </Box>
       </Modal>
       <Container maxWidth='xl' sx={{ maxHeight: '100%', overflow: 'auto', paddingBottom: '60px' }}>
-        {album && <AlbumHeader album={album} />}
+        {playlist && <PlaylistHeader playlist={playlist} />}
         <Stack direction='row' alignItems='center' justifyContent='flex-end' spacing={2}>
-          <Button variant='contained' onClick={() => setOpenTrackForm(true)}>
-            Create track
+          <Button variant='contained' onClick={() => setOpenAddBox(true)}>
+            Add Track
           </Button>
         </Stack>
 
-        {album && <TrackTable album={album} setAlbum={setAlbum} setSelectedTrack={setSelectedTrack} />}
+        {/* {album && <TrackTable album={album} setAlbum={setAlbum} setSelectedTrack={setSelectedTrack} />} */}
+        {playlist && <TrackTable playlist={playlist} setPlaylist={setPlaylist} setSelectedTrack={setSelectedTrack} />}
       </Container>
     </>
   )

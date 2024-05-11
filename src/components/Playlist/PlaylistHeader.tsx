@@ -1,12 +1,11 @@
 import { Avatar, Container, Grid, Typography, Box, Stack } from '@mui/material'
-import { Album } from '@/types/album'
+import { FeaturedPlaylist } from '@/types/featuredPlaylist'
 
-interface ProfileHeaderProps {
-  album: Album
+interface PlaylistHeaderProps {
+  playlist: FeaturedPlaylist
 }
-export default function AlbumHeader({ album }: ProfileHeaderProps) {
-  const { title, coverPath, releaseDate, tracks, duration, artist } = album
-  const { profile } = artist
+export default function PlaylistHeader({ playlist }: PlaylistHeaderProps) {
+  const { title, coverPath, tracks, updatedAt } = playlist
   return (
     <Box paddingBottom='30px'>
       <Grid container spacing={0}>
@@ -15,13 +14,13 @@ export default function AlbumHeader({ album }: ProfileHeaderProps) {
         </Grid>
         <Grid item xs={12} md={9} sm={8} sx={{ position: 'relative' }}>
           <Container sx={{ position: 'absolute', bottom: '0' }}>
-            <Typography>Album</Typography>
+            <Typography>Featured Playlist</Typography>
             <Typography variant='h1'>{title}</Typography>
             <Stack direction='row' alignItems='center'>
-              <Avatar src={profile.avatar} sx={{ marginRight: '10px' }} />
-              <Typography variant='h5'>{`${profile.displayname} . ${new Date(releaseDate).getFullYear()} . ${
-                tracks.length
-              } tracks`}</Typography>
+              {/* <Avatar src={profile.avatar} sx={{ marginRight: '10px' }} /> */}
+              <Typography variant='h5'>{`${tracks.length} tracks . Updated at ${new Date(
+                updatedAt
+              ).getFullYear()}`}</Typography>
             </Stack>
           </Container>
         </Grid>

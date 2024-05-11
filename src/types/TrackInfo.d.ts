@@ -3,12 +3,12 @@ export interface TrackInfo {
   title: string
   url: string
   coverPath: string
-  releaseDate?: string
+  releaseDate: string
   isPublic?: boolean
-  duration?: number
-  totalStreaam?: number
+  duration: number
+  totalStreams?: number
   album?: string
-  artist: string
+  artist: any
   collaborators?: string[]
   writtenBy?: string
   producedBy?: string

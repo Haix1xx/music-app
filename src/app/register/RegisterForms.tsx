@@ -162,15 +162,17 @@ const RegisterForms = ({
               onChange={handleTextFieldChange}
             />
           </Stack>
-          {/* <TextField
-            error={!formErrors.slug}
-            id='slug'
-            name='slug'
-            label='username'
-            value={formValues.slug}
-            helperText={!formErrors.slug && 'Please fill in your slug'}
-            onChange={handleTextFieldChange}
-          /> */}
+          {formValues.displayname !== undefined && (
+            <TextField
+              error={!formErrors.displayname}
+              id='displayname'
+              name='displayname'
+              label='Display name'
+              value={formValues.displayname}
+              helperText={!formErrors.displayname && 'Please fill in your display name'}
+              onChange={handleTextFieldChange}
+            />
+          )}
           <LocalizationProvider
             localeText={deDE.components.MuiLocalizationProvider.defaultProps.localeText}
             dateAdapter={AdapterDayjs}
@@ -182,17 +184,6 @@ const RegisterForms = ({
             />
           </LocalizationProvider>
           <Stack direction='row' spacing={3}>
-            {/* <TextField
-              error={!formErrors.address}
-              id='address'
-              name='address'
-              type='address'
-              label='Address'
-              value={formValues.address}
-              helperText={!formErrors.address && 'Please fill in your address'}
-              onChange={handleTextFieldChange}
-              sx={{ width: '200%' }}
-            /> */}
             <FormControl fullWidth>
               <InputLabel id='demo-simple-select-label'>Gender</InputLabel>
               <Select
@@ -208,16 +199,18 @@ const RegisterForms = ({
             </FormControl>
           </Stack>
 
-          <TextField
-            error={!formErrors.bio}
-            id='bio'
-            name='bio'
-            type='bio'
-            label='Bio'
-            value={formValues.bio}
-            helperText={!formErrors.bio && 'Please fill in your bio'}
-            onChange={handleTextFieldChange}
-          />
+          {formValues.bio !== undefined && (
+            <TextField
+              error={!formErrors.bio}
+              id='bio'
+              name='bio'
+              type='bio'
+              label='Bio'
+              value={formValues.bio}
+              helperText={!formErrors.bio && 'Please fill in your bio'}
+              onChange={handleTextFieldChange}
+            />
+          )}
         </Stack>
       </FormGroup>
       <FormGroup sx={{ display: step === 2 ? '' : 'none' }}>
