@@ -29,9 +29,8 @@ const StyledRoot = styled('div')(({ theme }) => ({
     left: '50%',
     top: '50%',
     transform: 'translate(-50%, -50%)',
-    boxShadow: theme.shadows[18],
-    borderRadius: BORDER_RADIUS,
-    background: theme.palette.background.paper
+    // boxShadow: theme.shadows[18],
+    borderRadius: BORDER_RADIUS
   },
   [theme.breakpoints.down('md')]: {
     height: '100vh'
@@ -68,7 +67,7 @@ const StyledContent = styled('div')(({ theme }) => ({
     height: '100%',
     justifyContent: 'space-between',
     flexDirection: 'column',
-    padding: theme.spacing(6, 0)
+    padding: theme.spacing(1, 0)
   },
   [theme.breakpoints.down('md')]: {
     width: '95%',
@@ -77,7 +76,7 @@ const StyledContent = styled('div')(({ theme }) => ({
     display: 'flex',
     justifyContent: 'space-between',
     flexDirection: 'column',
-    padding: theme.spacing(10, 0),
+    padding: theme.spacing(1, 0),
     alignItems: 'center',
     height: '100%'
   }
@@ -353,12 +352,12 @@ export default function TrackForm({ album, setAlbum, handleClose }: TrackFormPro
     <>
       <CustomSnackbar />
       <Container
-        sx={{ position: 'relative', marginTop: '0px', paddingBottom: '50px', overflowY: 'auto', height: '90vh' }}
+        sx={{ position: 'relative', marginTop: '0px', paddingBottom: '20px', overflowY: 'auto', height: '80vh' }}
       >
         <StyledRoot>
           <StyledForm>
             <StyledContent>
-              <Box sx={{ marginBottom: '20px' }}>
+              <Stack sx={{ marginBottom: '5px' }}>
                 <Typography variant='h4' gutterBottom className='mt-6 mb-6'>
                   Create your brand new track
                 </Typography>
@@ -370,7 +369,7 @@ export default function TrackForm({ album, setAlbum, handleClose }: TrackFormPro
                     </Step>
                   ))}
                 </Stepper>
-              </Box>
+              </Stack>
 
               <CreateTrackForm
                 step={activeStep}

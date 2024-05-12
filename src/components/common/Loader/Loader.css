@@ -33,7 +33,7 @@
 #background {
   height: 100%;
   width: 100%;
-  background-color: rgba(64, 53, 70, 0.85);
+  background-color: rgba(233, 248, 213, 0.85);
   position: absolute;
   top: 0;
   left: 0;
@@ -57,7 +57,17 @@
   height: 3rem;
   width: 5.4rem;
   background-color: gold;
-  background-image: linear-gradient(to right, transparent 34%, #440a49 34%, #440a49 49%, transparent 49%, transparent 61%, #440a49 61%, #440a49 76%, transparent 76%);
+  background-image: linear-gradient(
+    to right,
+    transparent 34%,
+    #440a49 34%,
+    #440a49 49%,
+    transparent 49%,
+    transparent 61%,
+    #440a49 61%,
+    #440a49 76%,
+    transparent 76%
+  );
   border-radius: 4.5rem;
   position: relative;
   animation: body-bounce 0.33s 0s alternate infinite;
@@ -65,7 +75,7 @@
 
 #bee #body:before,
 #bee #body:after {
-  content: "";
+  content: '';
   display: block;
   position: absolute;
   top: -1.7647058824rem;
@@ -91,7 +101,7 @@
 
 #bee #body #face:before,
 #bee #body #face:after {
-  content: "";
+  content: '';
   display: block;
   position: absolute;
   height: 0.6rem;
@@ -116,7 +126,7 @@
 
 .leg:before,
 .leg:after {
-  content: "";
+  content: '';
   display: block;
   position: absolute;
   width: 0.3rem;
