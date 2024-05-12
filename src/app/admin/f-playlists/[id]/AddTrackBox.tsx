@@ -2,7 +2,20 @@
 import UrlConfig from '@/config/urlConfig'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 import { TrackInfo } from '@/types/TrackInfo'
-import { Box, FormGroup, Stack, TextField, Button, Typography, IconButton, Grid, Table, TableBody } from '@mui/material'
+import {
+  Box,
+  FormGroup,
+  Stack,
+  TextField,
+  Button,
+  Typography,
+  IconButton,
+  Grid,
+  Table,
+  TableBody,
+  CircularProgress,
+  Divider
+} from '@mui/material'
 import { Dispatch, SetStateAction, useState } from 'react'
 import TrackInfoBox from './TrackInfoBox'
 import { Close } from '@mui/icons-material'
@@ -19,15 +32,20 @@ export default function AddTrackBox({ setOpen, setPlaylist }: AddTrackBoxProps) 
   const axios = useAxiosPrivate()
   const [searchTracks, setSearchTracks] = useState<TrackInfo[]>([])
   const [selectedTracks, setSelectedTracks] = useState<TrackInfo[]>([])
+  const [isSearching, setIsSearching] = useState(false)
   const handleSearch = async () => {
     if (searchText) {
+      setIsSearching(true)
       try {
         const response = await axios.get(UrlConfig.common.search(searchText, 'track'))
 
         if (response.data.status === 'success') {
           setSearchTracks(response.data.data.tracks as TrackInfo[])
         }
-      } catch (err) {}
+      } catch (err) {
+      } finally {
+        setIsSearching(false)
+      }
     } else {
       setSearchTracks([])
     }
@@ -99,6 +117,7 @@ export default function AddTrackBox({ setOpen, setPlaylist }: AddTrackBoxProps) 
             <Close />
           </IconButton>
         </Stack>
+        <Divider sx={{ margin: '10px 0 40px 0' }} />
         <FormGroup>
           <Grid>
             <Stack direction='row' sx={{ justifyContent: 'space-between' }} spacing={2}>
@@ -116,7 +135,9 @@ export default function AddTrackBox({ setOpen, setPlaylist }: AddTrackBoxProps) 
         </FormGroup>
 
         <Stack spacing={4} paddingTop={5}>
-          {searchTracks.length > 0 && (
+          {isSearching ? (
+            <CircularProgress sx={{ alignSelf: 'center' }} />
+          ) : searchTracks.length > 0 ? (
             <Stack>
               <Typography variant='h4'>Search Result</Typography>
               <Table>
@@ -127,6 +148,8 @@ export default function AddTrackBox({ setOpen, setPlaylist }: AddTrackBoxProps) 
                 </TableBody>
               </Table>
             </Stack>
+          ) : (
+            <Typography>No song matched</Typography>
           )}
 
           {selectedTracks.length > 0 && (

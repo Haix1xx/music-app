@@ -49,7 +49,7 @@ export default function TrackTable({ album, setSelectedTrack }: TrackTableProps)
                 onMouseLeave={() => setSelectedRow(null)}
                 sx={{
                   '&:hover': {
-                    backgroundColor: '#e5dff2'
+                    backgroundColor: 'secondary.lighter'
                   }
                 }}
               >

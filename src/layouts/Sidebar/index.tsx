@@ -19,7 +19,8 @@ const StyledSidebar = styled(Box)(({ theme }) => ({
 }))
 
 // Define StyledLinkBox with conditional styles
-const StyledLinkBox = styled('div')<{ isActive: boolean }>((props) => ({
+const StyledLinkBox = styled('div')<{ isActive: boolean }>(({ theme, ...props }) => ({
+  backgroundColor: props.isActive ? theme.palette.primary.dark : '#fff',
   width: '100%',
   padding: '15px 0',
   opacity: 0.7,
@@ -40,7 +41,7 @@ const StyledLinkBox = styled('div')<{ isActive: boolean }>((props) => ({
     backdropFilter: 'blur(4px)',
     boxShadow: '-2px 5px 8px rgba(0, 0, 0, 0.06)',
     transition: 'background-color 0.5s ease-in-out',
-    opacity: 1,
+    opacity: 1
   })
 }))
 
@@ -56,7 +57,7 @@ const StyledIconBox = styled('div')<{ isActive: boolean }>(({ theme, isActive })
   '& svg': {
     fontSize: '28px',
     opacity: isActive ? 1 : 0.7,
-    color: theme.palette.secondary.dark,
+    color: theme.palette.common.black,
     transition: 'opacity 0.3s, color 0.3s' // Add a transition for smoother changes
   }
 }))
@@ -101,7 +102,7 @@ const Sidebar = ({ menuItems }: SidebarProps) => {
                           }
                         </StyledIconBox>
                         <Typography
-                          color='secondary.dark'
+                          color='common.black'
                           style={{
                             fontWeight: 'bold',
                             verticalAlign: 'middle',

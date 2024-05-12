@@ -53,7 +53,7 @@ const BORDER_RADIUS = '16px'
 const StyledRoot = styled('div')(({ theme }) => ({
   [theme.breakpoints.up('md')]: {
     display: 'flex',
-    width: '70%',
+    width: '60%',
     height: '80%',
     position: 'absolute',
     left: '50%',
@@ -80,7 +80,7 @@ const StyledBanner = styled('div')(({ theme }) => ({
 
 const StyledForm = styled(Container)(({ theme }) => ({
   margin: 0,
-  minWidth: '58%',
+  minWidth: '100%',
   width: 'auto',
   height: '100%',
   zIndex: 10,
@@ -119,12 +119,12 @@ const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
   },
   [`&.${stepConnectorClasses.active}`]: {
     [`& .${stepConnectorClasses.line}`]: {
-      backgroundImage: 'linear-gradient( 95deg, #f59df1 0%, #c474ed 50%, #c89df2 100%)'
+      backgroundImage: 'linear-gradient( 95deg, #98f280 0%, #36c70e 50%, #60b04a 100%)'
     }
   },
   [`&.${stepConnectorClasses.completed}`]: {
     [`& .${stepConnectorClasses.line}`]: {
-      backgroundImage: 'linear-gradient( 95deg, #f59df1 0%, #c474ed 50%, #c89df2 100%)'
+      backgroundImage: 'linear-gradient( 95deg, #98f280 0%, #36c70e 50%, #60b04a 100%)'
     }
   },
   [`& .${stepConnectorClasses.line}`]: {
@@ -148,11 +148,11 @@ const ColorlibStepIconRoot = styled('div')<{
   justifyContent: 'center',
   alignItems: 'center',
   ...(ownerState.active && {
-    backgroundImage: 'linear-gradient( 136deg, #f59df1 0%, #c474ed 50%, #c89df2 100%)',
+    backgroundImage: 'linear-gradient( 136deg, #98f280 0%, #36c70e 50%, #60b04a 100%)',
     boxShadow: '0 4px 10px 0 rgba(0,0,0,.25)'
   }),
   ...(ownerState.completed && {
-    backgroundImage: 'linear-gradient( 136deg, #f59df1 0%, #c474ed 50%, #c89df2 100%)'
+    backgroundImage: 'linear-gradient( 136deg, #98f280 0%, #36c70e 50%, #60b04a 100%)'
   })
 }))
 
@@ -389,25 +389,6 @@ export default function PersonalRegister() {
               </Stack>
             </StyledContent>
           </StyledForm>
-
-          {mdUp && (
-            <StyledBanner>
-              <Box
-                sx={{
-                  width: '100%',
-                  height: '100%',
-                  position: 'relative'
-                }}
-              >
-                <Image
-                  style={{ objectFit: 'cover', borderRadius: BORDER_RADIUS }}
-                  fill
-                  src={SignupBanner}
-                  alt='signup'
-                />
-              </Box>
-            </StyledBanner>
-          )}
         </StyledRoot>
       ) : (
         <RegistrationComplete />

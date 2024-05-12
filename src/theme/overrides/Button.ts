@@ -16,7 +16,7 @@ export default function Button(theme: CustomTheme) {
           height: 48
         },
         contained: {
-          color: theme.palette.grey[0],
+          color: theme.palette.grey[900],
           backgroundColor: `${theme.palette.secondary.main} !important`,
           boxShadow: theme.customShadows.z4,
           // backgroundColor: theme.palette.grey[400],
@@ -58,7 +58,7 @@ export default function Button(theme: CustomTheme) {
           '&:hover': {
             boxShadow: 'none'
           }
-        },
+        }
       }
     }
   }

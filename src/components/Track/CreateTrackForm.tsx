@@ -187,22 +187,29 @@ const CreateTrackForm = ({
             variant='outlined'
             onChange={handleTextFieldChange}
           />
-          <InputLabel id='demo-multiple-checkbox-label'>Genres</InputLabel>
-          <Select
-            labelId='demo-multiple-checkbox-label'
-            id='genres'
-            name='genres'
-            label='Genres'
-            multiple
-            value={formValues.genres}
-            onChange={handleGenreChange}
-          >
-            {genres.map((genre) => (
-              <MenuItem key={genre._id} value={genre._id}>
-                {genre.name}
-              </MenuItem>
-            ))}
-          </Select>
+          <Grid container>
+            <Grid item xs={4} md={3} sm={12} sx={{ alignSelf: 'center' }}>
+              <InputLabel id='demo-multiple-checkbox-label'>Genres</InputLabel>
+            </Grid>
+            <Grid item xs={8} md={9} sm={12}>
+              <Select
+                labelId='demo-multiple-checkbox-label'
+                id='genres'
+                name='genres'
+                label='Genres'
+                multiple
+                value={formValues.genres}
+                onChange={handleGenreChange}
+                fullWidth
+              >
+                {genres.map((genre) => (
+                  <MenuItem key={genre._id} value={genre._id}>
+                    {genre.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </Grid>
+          </Grid>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
               label='Release date'

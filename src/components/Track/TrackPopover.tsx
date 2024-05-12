@@ -110,7 +110,7 @@ export default function TrackPopover({ track }: TrackPopoverProps) {
           sx={{
             p: 2,
             '&:hover': {
-              backgroundColor: '#e5dff2'
+              backgroundColor: 'secondary.lighter'
             }
           }}
           onClick={handleNavigateToArtist}
@@ -122,7 +122,7 @@ export default function TrackPopover({ track }: TrackPopoverProps) {
           sx={{
             p: 2,
             '&:hover': {
-              backgroundColor: '#e5dff2'
+              backgroundColor: 'secondary.lighter'
             }
           }}
           onClick={() => setOpenCredits(true)}

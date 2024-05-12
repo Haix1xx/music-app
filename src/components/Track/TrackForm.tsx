@@ -89,12 +89,12 @@ const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
   },
   [`&.${stepConnectorClasses.active}`]: {
     [`& .${stepConnectorClasses.line}`]: {
-      backgroundImage: 'linear-gradient( 95deg, #f59df1 0%, #c474ed 50%, #c89df2 100%)'
+      backgroundImage: 'linear-gradient( 95deg, #98f280 0%, #36c70e 50%, #60b04a 100%)'
     }
   },
   [`&.${stepConnectorClasses.completed}`]: {
     [`& .${stepConnectorClasses.line}`]: {
-      backgroundImage: 'linear-gradient( 95deg, #f59df1 0%, #c474ed 50%, #c89df2 100%)'
+      backgroundImage: 'linear-gradient( 95deg, #98f280 0%, #36c70e 50%, #60b04a 100%)'
     }
   },
   [`& .${stepConnectorClasses.line}`]: {
@@ -118,11 +118,11 @@ const ColorlibStepIconRoot = styled('div')<{
   justifyContent: 'center',
   alignItems: 'center',
   ...(ownerState.active && {
-    backgroundImage: 'linear-gradient( 136deg, #f59df1 0%, #c474ed 50%, #c89df2 100%)',
+    backgroundImage: 'linear-gradient( 136deg, #98f280 0%, #36c70e 50%, #60b04a 100%)',
     boxShadow: '0 4px 10px 0 rgba(0,0,0,.25)'
   }),
   ...(ownerState.completed && {
-    backgroundImage: 'linear-gradient( 136deg, #f59df1 0%, #c474ed 50%, #c89df2 100%)'
+    backgroundImage: 'linear-gradient( 136deg, #98f280 0%, #36c70e 50%, #60b04a 100%)'
   })
 }))
 
@@ -352,7 +352,9 @@ export default function TrackForm({ album, setAlbum, handleClose }: TrackFormPro
   return (
     <>
       <CustomSnackbar />
-      <Container sx={{ position: 'relative' }}>
+      <Container
+        sx={{ position: 'relative', marginTop: '0px', paddingBottom: '50px', overflowY: 'auto', height: '90vh' }}
+      >
         <StyledRoot>
           <StyledForm>
             <StyledContent>

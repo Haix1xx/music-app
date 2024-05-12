@@ -32,7 +32,7 @@ import Cookies from 'js-cookie' // Import js-cookie
 import Image from 'next/image'
 
 // assets
-import LoginBanner from '@/assets/login_banner.jpg'
+import LoginBanner from '@/assets/login_banner.png'
 import { useAuth } from '@/context/AuthContext'
 import urlConfig from '@/config/urlConfig'
 import Snackbar from '@/components/common/Snackbar'
@@ -239,15 +239,15 @@ export default function LoginPage() {
             </Stack>
             <Button
               size='large'
-              color='inherit'
+              color='primary'
               variant='outlined'
               disabled={isLoggingIn ? true : false}
               sx={{
                 background: isLoggingIn
                   ? //@ts-ignore
                     (theme) => `${theme.palette.disabled}!important`
-                  : `linear-gradient(110deg, #f59df1 30%, #c474ed 60%, #c89df2 95%) !important`,
-                color: 'white !important',
+                  : `linear-gradient(110deg, #a0f589 30%, #72f54e 60%, #30c408 95%) !important`,
+                color: 'black !important',
                 width: '100%'
               }}
               onClick={() => {

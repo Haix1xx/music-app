@@ -39,7 +39,7 @@ import Image from 'next/image'
 import RegisterForms from './RegisterForms'
 
 // assets
-import Banner from '@/assets/register_option_banner.jpg'
+import Banner from '@/assets/login_banner.png'
 import CustomSnackbar from '@/components/common/Snackbar'
 import useSnackbar from '@/context/snackbarContext'
 import { sassFalse } from 'sass'
@@ -54,7 +54,7 @@ const BORDER_RADIUS = '16px'
 const StyledRoot = styled('div')(({ theme }) => ({
   [theme.breakpoints.up('md')]: {
     display: 'flex',
-    width: '70%',
+    width: '60%',
     height: '80%',
     position: 'absolute',
     left: '50%',
@@ -70,7 +70,7 @@ const StyledRoot = styled('div')(({ theme }) => ({
 }))
 
 const StyledBanner = styled('div')(({ theme }) => ({
-  width: '42%',
+  width: '0%',
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
@@ -81,7 +81,7 @@ const StyledBanner = styled('div')(({ theme }) => ({
 
 const StyledForm = styled(Container)(({ theme }) => ({
   margin: 0,
-  minWidth: '58%',
+  minWidth: '100%',
   width: 'auto',
   height: '100%',
   zIndex: 10,
@@ -170,10 +170,10 @@ export default function Register() {
                   '&:disabled': {
                     // border: '2px solid rgb(155 99 191 / 63%)', background: '#e7afe01f',
                     '& .MuiTypography-h5': {
-                      color: (theme) => theme.palette.common.white
+                      color: (theme) => theme.palette.primary.contrastText
                     },
                     '& .MuiTypography-subtitle2': {
-                      color: (theme) => theme.palette.grey[100]
+                      color: (theme) => theme.palette.primary.contrastText
                     }
                   }
                 }}
@@ -191,12 +191,19 @@ export default function Register() {
                   >
                     <GiTreeBeehive />
                   </Box>
-                  <Box sx={{ marginLeft: '15px' }}>
-                    <Typography variant='h5' sx={{ textAlign: 'left', lineHeight: 1.25, marginBottom: '5px' }}>
-                      Personal
+                  <Box sx={{ marginLeft: '15px', color: (theme) => theme.palette.primary.contrastText }}>
+                    <Typography
+                      variant='h5'
+                      sx={{
+                        textAlign: 'left',
+                        lineHeight: 1.25,
+                        marginBottom: '5px'
+                      }}
+                    >
+                      Usual Profile
                     </Typography>
                     <Typography variant='subtitle2' sx={{ textTransform: 'initial' }}>
-                      Start interacting with your fellow bees
+                      Start streaming all of the songs in the world!
                     </Typography>
                   </Box>
                 </Stack>
@@ -212,10 +219,10 @@ export default function Register() {
                   '&:disabled': {
                     // border: '2px solid rgb(155 99 191 / 63%)', background: '#e7afe01f',
                     '& .MuiTypography-h5': {
-                      color: (theme) => theme.palette.common.white
+                      color: (theme) => theme.palette.primary.contrastText
                     },
                     '& .MuiTypography-subtitle2': {
-                      color: (theme) => theme.palette.grey[100]
+                      color: (theme) => theme.palette.primary.contrastText
                     }
                   }
                 }}
@@ -233,12 +240,12 @@ export default function Register() {
                   >
                     <GiBeehive />
                   </Box>
-                  <Box sx={{ marginLeft: '15px' }}>
+                  <Box sx={{ marginLeft: '15px', color: (theme) => theme.palette.primary.contrastText }}>
                     <Typography variant='h5' sx={{ textAlign: 'left', lineHeight: 1.25, marginBottom: '5px' }}>
-                      Business
+                      Artist Profile
                     </Typography>
                     <Typography variant='subtitle2' sx={{ textTransform: 'initial' }}>
-                      Further promote your business
+                      Start promoting your own discography here!
                     </Typography>
                   </Box>
                 </Stack>
@@ -253,7 +260,7 @@ export default function Register() {
           </StyledContent>
         </StyledForm>
 
-        {mdUp && (
+        {/* {mdUp && (
           <StyledBanner>
             <Box
               sx={{
@@ -265,7 +272,7 @@ export default function Register() {
               <Image style={{ objectFit: 'cover', borderRadius: BORDER_RADIUS }} fill src={Banner} alt='signup' />
             </Box>
           </StyledBanner>
-        )}
+        )} */}
       </StyledRoot>
     </>
   )
