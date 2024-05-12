@@ -20,8 +20,8 @@ const nextConfig = {
   },
   env: {
     // NEXT_APP_BEEGIN_DOMAIN: 'https://beegin.onrender.com',
-    NEXT_APP_BEEGIN_DOMAIN: 'http://localhost:8000',
-    NEXTAUTH_URL: 'http://localhost:3000'
+    NEXT_APP_BEEGIN_DOMAIN: 'https://music-tx16.onrender.com',
+    NEXTAUTH_URL: 'https://soundee.vercel.app'
   },
   images: {
     domains: ['images.pexels.com', 'res.cloudinary.com']
