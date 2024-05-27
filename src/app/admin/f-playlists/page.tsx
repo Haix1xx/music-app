@@ -196,7 +196,7 @@ function Page() {
                 <TableRow key={playlist._id}>
                   <TableCell style={{ textAlign: 'left' }}>{page * rowsPerPage + index + 1}</TableCell>
                   <TableCell style={{ textAlign: 'left' }}>
-                    <Stack direction='row' sx={{ justifyItems: 'center', alignItems: 'center' }}>
+                    <Stack direction='row' spacing={1} sx={{ justifyItems: 'center', alignItems: 'center' }}>
                       <Avatar src={playlist.coverPath} variant='square' />
                       <Typography>{playlist.title}</Typography>
                     </Stack>

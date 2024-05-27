@@ -14,13 +14,15 @@ import TrackPlayer, { TrackPlayerRef } from '@/components/Track/TrackPlayer'
 import { useAuth } from '@/context/AuthContext'
 import { useRouter } from 'next/navigation'
 import PageNotFound from '@/components/404/PageNotFound'
+import Loader from '@/components/common/Loader/Loader'
 
 export default function Page({ params }: { params: { id: string } }) {
   const isMobile = useResponsive('down', 'sm')
+  const [isLoading, setIsLoading] = useState(true)
   const [album, setAlbum] = useState<Album>()
   const [selectedTrack, setSelectedTrack] = useState<TrackInfo | null>(null)
   const [openTrackForm, setOpenTrackForm] = useState(false)
-  const [openTrackPlayer, setOpenTrackPlayer] = useState(false)
+  const [openTrackPlayer, setOpenTrackPlayer] = useState(true)
   const trackPlayerRef = useRef<TrackPlayerRef>(null)
   const router = useRouter()
   const handlePause = () => {
@@ -46,6 +48,8 @@ export default function Page({ params }: { params: { id: string } }) {
         }
       } catch (err) {
         return
+      } finally {
+        setIsLoading(false)
       }
     }
 
@@ -104,7 +108,9 @@ export default function Page({ params }: { params: { id: string } }) {
           </Container>
         </Box>
       </Modal>
-      {album ? (
+      {isLoading ? (
+        <Loader />
+      ) : album ? (
         <Container maxWidth='xl' sx={{ maxHeight: '100%', overflow: 'auto', paddingBottom: '60px' }}>
           <AlbumHeader album={album} />
           <Stack direction='row' alignItems='center' justifyContent='flex-end' spacing={2}>

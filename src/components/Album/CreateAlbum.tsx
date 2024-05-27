@@ -91,10 +91,9 @@ export default function CreateAlbum({ open, setOpen }: CreateAlbumProps) {
       })
 
       if (response.data.status === 'success') {
-        console.log(response.data.data)
         setSnack({
           open: true,
-          message: 'Post created successfully!',
+          message: 'Album created successfully!',
           type: 'success'
         })
         setIsSuccess(true)
@@ -165,7 +164,7 @@ export default function CreateAlbum({ open, setOpen }: CreateAlbumProps) {
                         />
                       </svg>
                       <p className='mb-2 text-sm text-black-800 dark:text-black-600'>
-                        <span className='font-semibold'>Click to upload your album's art cover</span> or just skip for
+                        <span className='font-semibold'>Click to upload your albums art cover</span> or just skip for
                         now
                       </p>
                       <p className='text-xs text-black-800 dark:text-black-600'>SVG, PNG, JPG or GIF</p>

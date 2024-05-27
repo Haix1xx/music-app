@@ -18,7 +18,7 @@ import {
   TablePagination,
   Stack,
   Container,
-  Modal
+  Avatar
 } from '@mui/material'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 import UrlConfig from '@/config/urlConfig'
@@ -190,7 +190,12 @@ function Page() {
               {data.map((track, index) => (
                 <TableRow key={track._id}>
                   <TableCell style={{ textAlign: 'left' }}>{page * rowsPerPage + index + 1}</TableCell>
-                  <TableCell style={{ textAlign: 'left' }}>{track.title}</TableCell>
+                  <TableCell style={{ textAlign: 'left' }}>
+                    <Stack direction='row' spacing={1}>
+                      <Avatar src={track.coverPath} variant='square' />
+                      <Typography sx={{ verticalAlign: 'center', alignSelf: 'center' }}>{track.title}</Typography>
+                    </Stack>
+                  </TableCell>
                   <TableCell style={{ textAlign: 'left' }}>{track.artist.profile.displayname}</TableCell>
                   <TableCell style={{ textAlign: 'right' }}>{format(track.releaseDate)}</TableCell>
                   <TableCell style={{ textAlign: 'center' }}>{track.isPublic ? 'ok' : 'no'}</TableCell>

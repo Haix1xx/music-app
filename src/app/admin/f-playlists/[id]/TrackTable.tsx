@@ -159,6 +159,7 @@ interface EnhancedTableToolbarProps {
   handleSaveChanges: () => void
   handleSetSelectedTrack: () => void
   handleEditTrack: () => void
+  handleRemoveTrack: () => void
 }
 
 function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
@@ -168,7 +169,8 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
     handleUpTrackOrder,
     handleSaveChanges,
     handleSetSelectedTrack,
-    handleEditTrack
+    handleEditTrack,
+    handleRemoveTrack
   } = props
 
   return (
@@ -204,7 +206,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
           </Tooltip>
 
           <Tooltip title='Delete'>
-            <IconButton>
+            <IconButton onClick={handleRemoveTrack}>
               <DeleteIcon />
             </IconButton>
           </Tooltip>
@@ -265,6 +267,7 @@ export default function TrackTable(props: TrackTableProps) {
       router.push(`/artist/track/${playlist.tracks[selected[0]].track._id}`)
     }
   }
+
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
       const newSelected = playlist.tracks.map((n) => n.order)
@@ -355,6 +358,38 @@ export default function TrackTable(props: TrackTableProps) {
     changeOrder(1)
   }
 
+  const handleRemoveTrack = async () => {
+    if (selected.length > 0) {
+      const copyPlaylist = { ...playlist }
+
+      copyPlaylist.tracks = playlist.tracks.filter((item) => !selected.includes(item.order))
+      try {
+        const response = await axios.patch(UrlConfig.common.playlistAndTracks(playlist._id), {
+          tracks: copyPlaylist.tracks.map((item, index) => ({
+            order: index,
+            track: item.track._id
+          }))
+        })
+
+        if (response.data.status === 'success') {
+          setSnack({
+            open: true,
+            message: 'Remove track order successfully',
+            type: 'success'
+          })
+          setSelected([])
+          setPlaylist(copyPlaylist)
+        }
+      } catch (err) {
+        setSnack({
+          open: true,
+          message: 'An error occurs while removing tracks',
+          type: 'error'
+        })
+      }
+    }
+  }
+
   const handleSaveChanges = async () => {
     console.log('saving...')
     try {
@@ -389,6 +424,7 @@ export default function TrackTable(props: TrackTableProps) {
             handleSaveChanges={handleSaveChanges}
             handleSetSelectedTrack={handleSetSelectedTrack}
             handleEditTrack={handleEditTrack}
+            handleRemoveTrack={handleRemoveTrack}
           />
           <TableContainer>
             <Table sx={{ minWidth: 750 }} aria-labelledby='tableTitle' size={dense ? 'small' : 'medium'}>

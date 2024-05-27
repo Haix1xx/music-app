@@ -12,7 +12,7 @@ export default function TrackInfoBox({ track, type, handleSelectionChange }: Sel
   return (
     <TableRow>
       <TableCell>
-        <Stack direction='row'>
+        <Stack direction='row' spacing={2}>
           <Avatar src={track.coverPath} variant='square' />
           <Stack sx={{ justifyContent: 'center' }}>
             <Typography>{track.title}</Typography>

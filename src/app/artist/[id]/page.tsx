@@ -2,6 +2,7 @@
 import PageNotFound from '@/components/404/PageNotFound'
 import ProfileHeader from '@/components/Artist/ProfileHeader'
 import MediaBox from '@/components/Track/MediaBox'
+import Loader from '@/components/common/Loader/Loader'
 import UrlConfig from '@/config/urlConfig'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 import { Album } from '@/types/album'
@@ -11,6 +12,7 @@ import { Box, Container, Stack, Typography } from '@mui/material'
 import { useEffect, useRef, useState } from 'react'
 
 export default function Page({ params }: { params: { id: string } }) {
+  const [isLoading, setIsLoading] = useState(true)
   const [artist, setArtist] = useState<Artist>()
   const [latestSingles, setLastestSingles] = useState<Single[]>([])
   const [latestAlbums, setLatestAlbums] = useState<Album[]>([])
@@ -23,7 +25,10 @@ export default function Page({ params }: { params: { id: string } }) {
         if (response.data.status === 'success') {
           setArtist(response.data.data.data as Artist)
         }
-      } catch (err) {}
+      } catch (err) {
+      } finally {
+        setIsLoading(false)
+      }
     }
     fetchArtist()
   }, [params])
@@ -85,7 +90,9 @@ export default function Page({ params }: { params: { id: string } }) {
   return (
     <>
       <title> Artist </title>
-      {artist ? (
+      {isLoading ? (
+        <Loader />
+      ) : artist ? (
         <Container maxWidth='xl' sx={{ maxHeight: '100%', overflow: 'auto', paddingBottom: '60px' }}>
           <ProfileHeader avatar={artist?.avatar} artistName={artist.displayname} />
           <Box sx={{ paddingBottom: '30px' }}>

@@ -23,10 +23,11 @@ import useSnackbar from '@/context/snackbarContext'
 import { FeaturedPlaylist, TrackOrder } from '@/types/featuredPlaylist'
 
 interface AddTrackBoxProps {
+  playlist: FeaturedPlaylist
   setOpen: Dispatch<SetStateAction<boolean>>
   setPlaylist: Dispatch<SetStateAction<FeaturedPlaylist | undefined>>
 }
-export default function AddTrackBox({ setOpen, setPlaylist }: AddTrackBoxProps) {
+export default function AddTrackBox({ setOpen, setPlaylist, playlist }: AddTrackBoxProps) {
   const [searchText, setSearchText] = useState('')
   const { setSnack } = useSnackbar()
   const axios = useAxiosPrivate()
@@ -52,15 +53,23 @@ export default function AddTrackBox({ setOpen, setPlaylist }: AddTrackBoxProps) 
   }
 
   const handleAddTrack = (track: TrackInfo) => {
-    const copyTracks = [...selectedTracks]
-    if (copyTracks.findIndex((item) => item._id === track._id) === -1) {
-      copyTracks.push(track)
-      setSelectedTracks(copyTracks)
+    if (playlist.tracks.findIndex((item) => item.track._id === track._id) === -1) {
+      const copyTracks = [...selectedTracks]
+      if (copyTracks.findIndex((item) => item._id === track._id) === -1) {
+        copyTracks.push(track)
+        setSelectedTracks(copyTracks)
+      } else {
+        setSnack({
+          open: true,
+          type: 'warning',
+          message: 'Track is already selected'
+        })
+      }
     } else {
       setSnack({
         open: true,
         type: 'warning',
-        message: 'Track is already selected'
+        message: 'Track is already in this playplist'
       })
     }
   }
@@ -97,7 +106,6 @@ export default function AddTrackBox({ setOpen, setPlaylist }: AddTrackBoxProps) 
 
           copyPlaylist.tracks = [...tracks, ...trackOrderSelected]
         }
-        console.log(copyPlaylist)
         return copyPlaylist
       })
     }

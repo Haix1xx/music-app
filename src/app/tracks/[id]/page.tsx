@@ -3,6 +3,7 @@ import PageNotFound from '@/components/404/PageNotFound'
 import TrackHeader from '@/components/Track/TrackHeader'
 import TrackPlayer, { TrackPlayerRef } from '@/components/Track/TrackPlayer'
 import TrackPopover from '@/components/Track/TrackPopover'
+import Loader from '@/components/common/Loader/Loader'
 import UrlConfig from '@/config/urlConfig'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 import useResponsive from '@/hooks/useResponsive'
@@ -29,6 +30,7 @@ import { useEffect, useRef, useState } from 'react'
 
 export default function Page({ params }: { params: { id: string } }) {
   const isMobile = useResponsive('down', 'sm')
+  const [isLoading, setIsLoading] = useState(true)
   const [track, setTrack] = useState<TrackInfo>()
   const [isHover, setIsHover] = useState(false)
   const [openTrackPlayer, setOpenTrackPlayer] = useState(false)
@@ -48,7 +50,10 @@ export default function Page({ params }: { params: { id: string } }) {
         if (response.data.status === 'success') {
           setTrack(response.data.data.data as TrackInfo)
         }
-      } catch (err) {}
+      } catch (err) {
+      } finally {
+        setIsLoading(false)
+      }
     }
 
     fetchTrack()
@@ -84,7 +89,9 @@ export default function Page({ params }: { params: { id: string } }) {
           </Box>
         </Modal>
       )}
-      {track ? (
+      {isLoading ? (
+        <Loader />
+      ) : track ? (
         <Container maxWidth='xl' sx={{ maxHeight: '100%', overflow: 'auto', paddingBottom: '60px' }}>
           <TrackHeader track={track} />
           <TableContainer>

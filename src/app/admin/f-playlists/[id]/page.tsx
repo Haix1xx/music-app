@@ -14,9 +14,11 @@ import PlaylistHeader from '@/components/Playlist/PlaylistHeader'
 import TrackTable from './TrackTable'
 import AddTrackBox from './AddTrackBox'
 import PageNotFound from '@/components/404/PageNotFound'
+import Loader from '@/components/common/Loader/Loader'
 
 export default function Page({ params }: { params: { id: string } }) {
   const isMobile = useResponsive('down', 'sm')
+  const [isLoading, setIsLoading] = useState(true)
   const [playlist, setPlaylist] = useState<FeaturedPlaylist>()
   const [selectedTrack, setSelectedTrack] = useState<TrackInfo | null>(null)
   const [openAddBox, setOpenAddBox] = useState(false)
@@ -41,6 +43,8 @@ export default function Page({ params }: { params: { id: string } }) {
         }
       } catch (err) {
         return
+      } finally {
+        setIsLoading(false)
       }
     }
 
@@ -68,7 +72,7 @@ export default function Page({ params }: { params: { id: string } }) {
           }}
         >
           <Container sx={{ alignSelf: 'center', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
-            <AddTrackBox setOpen={setOpenAddBox} setPlaylist={setPlaylist} />
+            {playlist && <AddTrackBox setOpen={setOpenAddBox} setPlaylist={setPlaylist} playlist={playlist} />}
           </Container>
         </Box>
       </Modal>
@@ -99,7 +103,9 @@ export default function Page({ params }: { params: { id: string } }) {
           </Container>
         </Box>
       </Modal>
-      {playlist ? (
+      {isLoading ? (
+        <Loader />
+      ) : playlist ? (
         <Container maxWidth='xl' sx={{ maxHeight: '100%', overflow: 'auto', paddingBottom: '60px' }}>
           <PlaylistHeader playlist={playlist} />
           <Stack direction='row' alignItems='center' justifyContent='flex-end' spacing={2}>

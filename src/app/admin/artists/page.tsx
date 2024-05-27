@@ -18,7 +18,8 @@ import {
   TablePagination,
   Stack,
   Container,
-  Tooltip
+  Tooltip,
+  Avatar
 } from '@mui/material'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 import UrlConfig from '@/config/urlConfig'
@@ -177,8 +178,8 @@ function Page() {
             <TableHead>
               <TableRow>
                 <TableCell style={{ textAlign: 'left' }}>#</TableCell>
-                <TableCell style={{ textAlign: 'left' }}>Fullname</TableCell>
                 <TableCell style={{ textAlign: 'left' }}>Display name</TableCell>
+                <TableCell style={{ textAlign: 'left' }}>Fullname</TableCell>
                 <TableCell style={{ textAlign: 'left' }}>Email</TableCell>
                 <TableCell style={{ textAlign: 'right' }}>Joined At</TableCell>
                 <TableCell style={{ textAlign: 'center' }}>Actions</TableCell>
@@ -188,8 +189,13 @@ function Page() {
               {data.map((artist, index) => (
                 <TableRow key={artist._id}>
                   <TableCell style={{ textAlign: 'left' }}>{page * rowsPerPage + index + 1}</TableCell>
+                  <TableCell style={{ textAlign: 'left' }}>
+                    <Stack direction='row' spacing={1} sx={{ justifyItems: 'center', alignItems: 'center' }}>
+                      <Avatar src={artist.avatar} />
+                      <Typography>{artist.displayname}</Typography>
+                    </Stack>
+                  </TableCell>
                   <TableCell style={{ textAlign: 'left' }}>{`${artist.firstname} ${artist.lastname}`}</TableCell>
-                  <TableCell style={{ textAlign: 'left' }}>{artist.displayname}</TableCell>
                   <TableCell style={{ textAlign: 'left' }}>{artist.user.email}</TableCell>
                   <TableCell style={{ textAlign: 'right' }}>{format(artist.createdAt)}</TableCell>
                   <TableCell style={{ textAlign: 'center' }}>

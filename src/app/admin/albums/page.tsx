@@ -18,7 +18,8 @@ import {
   TablePagination,
   Stack,
   Container,
-  Tooltip
+  Tooltip,
+  Avatar
 } from '@mui/material'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 import UrlConfig from '@/config/urlConfig'
@@ -155,7 +156,12 @@ function Page() {
               {data.map((album, index) => (
                 <TableRow key={album._id}>
                   <TableCell style={{ textAlign: 'left' }}>{page * rowsPerPage + index + 1}</TableCell>
-                  <TableCell style={{ textAlign: 'left' }}>{album.title}</TableCell>
+                  <TableCell style={{ textAlign: 'left' }}>
+                    <Stack direction='row' spacing={1}>
+                      <Avatar src={album.coverPath} variant='square' />
+                      <Typography sx={{ verticalAlign: 'center', alignSelf: 'center' }}>{album.title}</Typography>
+                    </Stack>
+                  </TableCell>
                   <TableCell style={{ textAlign: 'left' }}>{album.artist.profile.displayname}</TableCell>
                   <TableCell style={{ textAlign: 'right' }}>{format(album.releaseDate)}</TableCell>
                   <TableCell style={{ textAlign: 'right' }}>{album.tracks.length}</TableCell>

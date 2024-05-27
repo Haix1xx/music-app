@@ -12,9 +12,11 @@ import TrackPlayer, { TrackPlayerRef } from '@/components/Track/TrackPlayer'
 import TrackTable from './TrackTable'
 import { useRouter } from 'next/navigation'
 import PageNotFound from '@/components/404/PageNotFound'
+import Loader from '@/components/common/Loader/Loader'
 
 export default function Page({ params }: { params: { id: string } }) {
   const isMobile = useResponsive('down', 'sm')
+  const [isLoading, setIsLoading] = useState(true)
   const [album, setAlbum] = useState<Album>()
   const [selectedTrack, setSelectedTrack] = useState<TrackInfo | null>(null)
   const [openTrackPlayer, setOpenTrackPlayer] = useState(false)
@@ -30,11 +32,13 @@ export default function Page({ params }: { params: { id: string } }) {
     const fetchAlbum = async () => {
       try {
         const response = await axios.get(UrlConfig.common.albumAndTracks(params.id))
-        console.log(response.data)
         if (response.data.status === 'success') {
           setAlbum(response.data.data.data)
         }
-      } catch (err) {}
+      } catch (err) {
+      } finally {
+        setIsLoading(false)
+      }
     }
 
     fetchAlbum()
@@ -73,7 +77,9 @@ export default function Page({ params }: { params: { id: string } }) {
         </Box>
       </Modal>
 
-      {album ? (
+      {isLoading ? (
+        <Loader />
+      ) : album ? (
         <Container maxWidth='xl' sx={{ maxHeight: '100%', overflow: 'auto', paddingBottom: '60px' }}>
           <AlbumHeader album={album} />
           <Stack direction='row' alignItems='center' justifyContent='flex-end' spacing={2}></Stack>

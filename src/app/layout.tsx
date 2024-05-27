@@ -74,12 +74,12 @@ const menuAdminItems = [
     label: 'Overview',
     path: '/admin/overview'
   },
-  {
-    icon: <ArticleOutlinedIcon />,
-    iconActive: <ArticleIcon />,
-    label: 'Reports',
-    path: '/admin/reports'
-  },
+  // {
+  //   icon: <ArticleOutlinedIcon />,
+  //   iconActive: <ArticleIcon />,
+  //   label: 'Reports',
+  //   path: '/admin/reports'
+  // },
   {
     icon: <PeopleOutlineOutlinedIcon />,
     iconActive: <PeopleAltIcon />,

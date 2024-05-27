@@ -96,14 +96,13 @@ const TrackPlayer = forwardRef<TrackPlayerRef, TrackPlayerProps>(({ track }: Tra
         <Avatar src={track.coverPath} sx={{ width: '100%', height: '100%' }} className={isPlaying ? 'spin' : ''} />
 
         <Grid container direction='row' sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
-          <Grid item xs={1}>
+          <Grid item xs={1} md={1}>
             <Typography>{TimeFormatter(currentTime)}</Typography>
           </Grid>
-
-          <Grid item xs={10}>
+          <Grid item xs={10} md={10} sx={{ boxSizing: 'border-box', paddingX: '20px' }}>
             <LinearProgress variant='determinate' value={(currentTime / track.duration) * 100} />
           </Grid>
-          <Grid item xs={1}>
+          <Grid item xs={1} md={1}>
             <Typography>{TimeFormatter(track.duration)}</Typography>
           </Grid>
         </Grid>
