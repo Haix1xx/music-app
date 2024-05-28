@@ -37,7 +37,10 @@ const UrlConfig: any = {
     getSinglesByArtist: (artistId: string, limit: number = 5, page: number = 1) =>
       `/api/v1/artists/${artistId}/singles?limit=${limit}&page=${page}`,
     search: (q: string, type: string = 'all', limit: number = 5, page: number = 1) =>
-      `/api/v1/search?q=${q}&type=${type}&limit=${limit}&page=${page}`
+      `/api/v1/search?q=${q}&type=${type}&limit=${limit}&page=${page}`,
+    chart: `/api/v1/charts`,
+    getChart: (chartDate: string) => `/api/v1/charts/${chartDate}`,
+    stream: `/api/v1/streams`
   },
   user: {
     login: `${process.env.NEXT_APP_BEEGIN_DOMAIN}/api/v1/users/login`,

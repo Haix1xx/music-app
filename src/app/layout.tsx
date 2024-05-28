@@ -38,7 +38,9 @@ import {
   Dashboard,
   DashboardOutlined,
   ArtTrackOutlined,
-  ArtTrack
+  ArtTrack,
+  Addchart,
+  AddchartOutlined
 } from '@mui/icons-material'
 import TanstackProvider from '@/providers/TanstackProvider'
 import { FaHouseChimney, FaRegUser, FaUser, FaCircleUser, FaRegCircleUser } from 'react-icons/fa6'
@@ -115,6 +117,12 @@ const menuAdminItems = [
     iconActive: <ArtTrack />,
     label: 'Genres',
     path: '/admin/genres'
+  },
+  {
+    icon: <AddchartOutlined />,
+    iconActive: <Addchart />,
+    label: 'Chart',
+    path: '/admin/charts'
   }
 ]
 

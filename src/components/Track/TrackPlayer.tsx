@@ -1,3 +1,4 @@
+'use client'
 import { Replay10, Pause, Forward10, PlayArrow } from '@mui/icons-material'
 import {
   Avatar,
@@ -16,6 +17,8 @@ import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useSta
 import { TrackInfo } from '@/types/TrackInfo'
 import TimeFormatter from '@/utils/timeFormatter'
 import './TrackPlayer.css'
+import useAxiosPrivate from '@/hooks/useAxiosPrivate'
+import UrlConfig from '@/config/urlConfig'
 
 interface TrackPlayerProps {
   track: TrackInfo
@@ -28,10 +31,14 @@ export interface TrackPlayerRef {
   forward: () => void
 }
 
+// eslint-disable-next-line react/display-name
 const TrackPlayer = forwardRef<TrackPlayerRef, TrackPlayerProps>(({ track }: TrackPlayerProps, ref) => {
   const [isPlaying, setIsPlaying] = useState(false)
+  const [isFirstPlay, setIsFirstPlay] = useState(true)
   const [currentTime, setCurrentTime] = useState(0)
   const audioRef = useRef(new Audio(track.url))
+
+  const axios = useAxiosPrivate()
 
   useEffect(() => {
     const audio = audioRef.current
@@ -49,6 +56,31 @@ const TrackPlayer = forwardRef<TrackPlayerRef, TrackPlayerProps>(({ track }: Tra
     }
     setCurrentTime(audioRef.current.currentTime)
   }
+
+  const handleAddStream = async () => {
+    console.log('adding')
+    try {
+      const response = await axios.post(UrlConfig.common.stream, { track: track._id })
+      console.log(response)
+      if (response.status === 200) {
+        console.log('okkkk')
+      }
+    } catch (err) {
+      return
+    }
+  }
+
+  useEffect(() => {
+    const handleAddStream = async () => {
+      try {
+        await axios.post(UrlConfig.common.stream, { track: track._id })
+      } catch (err) {
+        return
+      }
+    }
+    handleAddStream()
+  }, [isFirstPlay])
+
   const handlePlayAndPauseAudio = () => {
     if (isPlaying) {
       audioRef.current.pause()
@@ -80,6 +112,9 @@ const TrackPlayer = forwardRef<TrackPlayerRef, TrackPlayerProps>(({ track }: Tra
       if (!isPlaying) {
         audioRef.current.play()
         setIsPlaying(true)
+        if (isFirstPlay) {
+          setIsFirstPlay(false)
+        }
       }
     }
   }))
