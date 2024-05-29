@@ -40,7 +40,9 @@ import {
   ArtTrackOutlined,
   ArtTrack,
   Addchart,
-  AddchartOutlined
+  AddchartOutlined,
+  BarChartOutlined,
+  BarChart
 } from '@mui/icons-material'
 import TanstackProvider from '@/providers/TanstackProvider'
 import { FaHouseChimney, FaRegUser, FaUser, FaCircleUser, FaRegCircleUser } from 'react-icons/fa6'
@@ -171,6 +173,12 @@ const menuArtistItems = [
     iconActive: <LibraryMusic />,
     label: 'Discography',
     path: '/artist/discography'
+  },
+  {
+    icon: <BarChartOutlined />,
+    iconActive: <BarChart />,
+    label: 'Chart',
+    path: '/charts'
   }
 ]
 export default function RootLayout({ children, session }: { children: React.ReactNode; session: any }) {

@@ -4,6 +4,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import LoadingScreen from '@/components/common/Loader/Loader'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
+import { useAuth } from '@/context/AuthContext'
 
 const withAuth =
   //// eslint-disable-next-line react/display-name, react/display-name
@@ -12,8 +13,9 @@ const withAuth =
     const pathname = usePathname()
     const axios = useAxiosPrivate()
     const [isAllowed, setIsAllowed] = useState(false)
+    const auth = useAuth()
     useEffect(() => {
-      const role = localStorage.getItem('role')
+      const role = auth?.user?.role ?? localStorage.getItem('role')
       //@ts-ignore
       if (allowedRole.includes(role)) {
         setIsAllowed(true)
@@ -21,7 +23,7 @@ const withAuth =
         setIsAllowed(false)
         router.push('/401')
       }
-    }, [pathname, router])
+    }, [pathname, router, auth])
 
     //@ts-ignore
     return isAllowed ? <Component {...props} /> : <LoadingScreen />
