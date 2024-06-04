@@ -12,6 +12,7 @@ interface TrackBoxProps {
   id: string
   artist: ArtistProfile
 }
+// eslint-disable-next-line react/display-name
 const TrackBox = forwardRef<HTMLDivElement, TrackBoxProps>((props, ref) => {
   const { cover, title, type, releaseDate, id, artist } = props
   const router = useRouter()
@@ -29,7 +30,7 @@ const TrackBox = forwardRef<HTMLDivElement, TrackBoxProps>((props, ref) => {
     <Card
       ref={ref}
       sx={{
-        maxWidth: '300px',
+        maxWidth: '250px',
         padding: '10px 10px 0 10px',
         margin: '30px',
         '&:hover': {
@@ -44,7 +45,7 @@ const TrackBox = forwardRef<HTMLDivElement, TrackBoxProps>((props, ref) => {
             gutterBottom
             variant='h4'
             component='div'
-            sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+            sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '200px' }}
           >
             {title}
           </Typography>

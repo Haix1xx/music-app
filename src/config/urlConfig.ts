@@ -1,6 +1,8 @@
 const UrlConfig: any = {
   admin: {
     getOverview: (year: number) => `/api/v1/users/overview/${year}`,
+    overview: `/api/v1/overview`,
+    topTracks: `/api/v1/overview/top-tracks`,
     getAllReports: `/api/v1/reports/getAllReports`,
     reportProcessing: `/api/v1/reports/reportProcessing`,
     getAllUsers: `/api/v1/users`,

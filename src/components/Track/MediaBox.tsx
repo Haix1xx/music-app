@@ -12,6 +12,7 @@ interface MediaBoxProps {
   id: string
   artist: ArtistProfile
 }
+// eslint-disable-next-line react/display-name
 const MediaBox = forwardRef<HTMLDivElement, MediaBoxProps>((props, ref) => {
   const { cover, title, type, releaseDate, id, artist } = props
   const router = useRouter()
@@ -29,7 +30,7 @@ const MediaBox = forwardRef<HTMLDivElement, MediaBoxProps>((props, ref) => {
     <Card
       ref={ref}
       sx={{
-        maxWidth: '300px',
+        maxWidth: '250px',
         padding: '10px 10px 0 10px',
         margin: '30px',
         '&:hover': {

@@ -58,12 +58,9 @@ const TrackPlayer = forwardRef<TrackPlayerRef, TrackPlayerProps>(({ track }: Tra
   }
 
   const handleAddStream = async () => {
-    console.log('adding')
     try {
       const response = await axios.post(UrlConfig.common.stream, { track: track._id })
-      console.log(response)
       if (response.status === 200) {
-        console.log('okkkk')
       }
     } catch (err) {
       return
@@ -124,10 +121,13 @@ const TrackPlayer = forwardRef<TrackPlayerRef, TrackPlayerProps>(({ track }: Tra
         <Typography variant='h2' sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
           {track.title}
         </Typography>
-        <Typography variant='h6'>{`Release date: ${new Date(track.releaseDate)
+        {/* <Typography variant='h6'>{`Release date: ${new Date(track.releaseDate)
           .toISOString()
-          .substring(0, 10)}`}</Typography>
+          .substring(0, 10)}`}</Typography> */}
 
+        <Typography variant='h4' sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+          {track.artist?.profile?.displayname}
+        </Typography>
         <Avatar src={track.coverPath} sx={{ width: '100%', height: '100%' }} className={isPlaying ? 'spin' : ''} />
 
         <Grid container direction='row' sx={{ justifyContent: 'space-between', alignItems: 'center' }}>
