@@ -3,12 +3,56 @@ import WidgetSummary from '@/components/Artist/WidgetSummary'
 import { Button, Container, Grid, Modal, Stack, Typography, Box } from '@mui/material'
 import audio from '@/assets/audio-extension/audio.png'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import useResponsive from '@/hooks/useResponsive'
 import CreateAlbum from '@/components/Album/CreateAlbum'
+import useAxiosPrivate from '@/hooks/useAxiosPrivate'
+import UrlConfig from '@/config/urlConfig'
+import trackIcon from '@/assets/icons/music-track.png'
+import albumIcon from '@/assets/icons/album.png'
+import streamIcon from '@/assets/icons/streaming.png'
+import singleIcon from '@/assets/icons/single.png'
+import { TrackInfo } from '@/types/TrackInfo'
+import TopTrackTable from './table'
+
 export default function Page() {
   const isMobile = useResponsive('down', 'sm')
+  const [tracks, setTracks] = useState<TrackInfo[]>([])
   const [open, setOpen] = useState<boolean>(false)
+  const [data, setData] = useState({
+    trackCount: 0,
+    albumCount: 0,
+    streamCount: 0,
+    singleCount: 0
+  })
+
+  const axiosPrivate = useAxiosPrivate()
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axiosPrivate.get(UrlConfig.artist.topTracks())
+        if (response.data.status === 'success') {
+          setTracks(response.data.data.data as TrackInfo[])
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    fetchData()
+  }, [])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axiosPrivate.get(UrlConfig.artist.topTracks())
+        setData(response.data.data)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    fetchData()
+  }, [])
   return (
     <>
       <Modal open={open} onClose={() => setOpen(false)}>
@@ -33,31 +77,38 @@ export default function Page() {
           </Stack>
         </Box>
       </Modal>
-      <Container maxWidth='xl'>
-        <Typography variant='h4' sx={{ mb: 5 }}>
-          Hi, Welcome back 👋
-        </Typography>
-        <Stack direction='row' justifyContent='flex-end' alignItems='center' spacing={2} paddingBottom='10px'>
-          <Link href='/artist/create-track'>
-            <Button variant='outlined'>New Song</Button>
-          </Link>
-          <Button variant='contained' onClick={() => setOpen(true)}>
-            New Album
-          </Button>
-        </Stack>
-        <Grid container spacing={4}>
-          <Grid item xs={12} sm={6} md={3}>
-            <WidgetSummary title='Monthy Listeners' total={2000000} color='success' icon={audio} />
+      <Container maxWidth='xl' sx={{ height: '100vh', overflowY: 'auto' }}>
+        <Grid spacing={2} sx={{ paddingBottom: '150px' }}>
+          <Typography variant='h4' sx={{ mb: 5 }}>
+            Hi, Welcome back 👋
+          </Typography>
+          <Stack direction='row' justifyContent='flex-end' alignItems='center' spacing={2} paddingBottom='10px'>
+            <Link href='/artist/create-track'>
+              <Button variant='outlined'>New Single</Button>
+            </Link>
+            <Button variant='contained' onClick={() => setOpen(true)}>
+              New Album
+            </Button>
+          </Stack>
+          <Grid container spacing={4}>
+            <Grid item xs={12} sm={6} md={3}>
+              <WidgetSummary title='Total Streams' total={data.streamCount} color='success' icon={streamIcon} />
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <WidgetSummary title='Total Singles' total={data.singleCount} color='success' icon={singleIcon} />
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <WidgetSummary title='Total Tracks' total={data.trackCount} color='success' icon={trackIcon} />
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <WidgetSummary title='Total Albums' total={data.albumCount} color='success' icon={albumIcon} />
+            </Grid>
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <WidgetSummary title='Monthy Streams' total={2000000} color='success' icon={audio} />
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <WidgetSummary title='Song' total={67} color='success' icon={audio} />
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <WidgetSummary title='Album' total={2} color='success' icon={audio} />
-          </Grid>
+
+          <Typography sx={{ paddingTop: '30px' }} variant='h2'>
+            Recent Top Tracks{' '}
+          </Typography>
+          <TopTrackTable tracks={tracks} />
         </Grid>
       </Container>
     </>

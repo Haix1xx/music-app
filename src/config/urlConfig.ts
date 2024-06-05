@@ -15,7 +15,10 @@ const UrlConfig: any = {
   },
   artist: {
     signup: `/api/v1/users/artists/signup`,
-    tracks: `/api/v1/tracks`
+    tracks: `/api/v1/tracks`,
+    overview: `/api/v1/overview/artists`,
+    topTracks: (limit: number = 10, page: number = 1) =>
+      `/api/v1/overview/artists/top-tracks?limit=${limit}&page=${page}`
   },
   common: {
     tracks: `/api/v1/tracks`,
