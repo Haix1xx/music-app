@@ -145,7 +145,7 @@ function page() {
           page: number
           status?: string
         } = {
-          sort: 'createAt',
+          sort: '-createdAt',
           limit: rowsPerPage,
           page: page + 1
         }

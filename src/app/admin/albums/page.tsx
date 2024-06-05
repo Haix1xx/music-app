@@ -104,7 +104,7 @@ function Page() {
           limit: number
           page: number
         } = {
-          sort: 'createAt',
+          sort: '-releaseDate',
           limit: rowsPerPage,
           page: page + 1
         }

@@ -77,6 +77,9 @@ function page() {
               </Grid>
             </Grid>
 
+            <Typography sx={{ paddingTop: '30px' }} variant='h2'>
+              Recent Top Tracks{' '}
+            </Typography>
             <TopTrackTable tracks={tracks} />
           </Stack>
         </Grid>

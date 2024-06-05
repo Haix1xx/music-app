@@ -110,7 +110,7 @@ function Page() {
           limit: number
           page: number
         } = {
-          sort: 'createAt',
+          sort: '-createdAt',
           limit: rowsPerPage,
           page: page + 1
         }

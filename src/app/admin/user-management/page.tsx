@@ -120,7 +120,7 @@ function page() {
           role?: string
         } = {
           fields: 'email,role,isActive,profile',
-          sort: 'createAt',
+          sort: '-createdAt',
           limit: rowsPerPage,
           page: page + 1
         }
