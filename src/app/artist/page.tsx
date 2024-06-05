@@ -45,7 +45,7 @@ export default function Page() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axiosPrivate.get(UrlConfig.artist.topTracks())
+        const response = await axiosPrivate.get(UrlConfig.artist.overview)
         setData(response.data.data)
       } catch (error) {
         console.log(error)
