@@ -132,7 +132,7 @@ export default function Register() {
 
   return (
     <>
-      <title> Signup | Beegin </title>
+      <title> Signup | Soundee </title>
       <StyledRoot>
         <StyledForm>
           <Link href='/login'>
@@ -191,7 +191,7 @@ export default function Register() {
                   >
                     <GiTreeBeehive />
                   </Box>
-                  <Box sx={{ marginLeft: '15px', color: (theme) => theme.palette.primary.contrastText }}>
+                  <Box sx={{ marginLeft: '15px', color: (theme) => theme.palette.common.black }}>
                     <Typography
                       variant='h5'
                       sx={{
@@ -240,7 +240,7 @@ export default function Register() {
                   >
                     <GiBeehive />
                   </Box>
-                  <Box sx={{ marginLeft: '15px', color: (theme) => theme.palette.primary.contrastText }}>
+                  <Box sx={{ marginLeft: '15px', color: (theme) => theme.palette.common.black }}>
                     <Typography variant='h5' sx={{ textAlign: 'left', lineHeight: 1.25, marginBottom: '5px' }}>
                       Artist Profile
                     </Typography>

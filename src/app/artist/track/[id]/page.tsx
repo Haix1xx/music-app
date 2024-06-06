@@ -1,6 +1,7 @@
 'use client'
 import TrackHeader from '@/components/Track/TrackHeader'
 import TrackPlayer, { TrackPlayerRef } from '@/components/Track/TrackPlayer'
+import Loader from '@/components/common/Loader/Loader'
 import CustomSnackbar from '@/components/common/Snackbar'
 import UrlConfig from '@/config/urlConfig'
 import { useAuth } from '@/context/AuthContext'
@@ -16,6 +17,7 @@ import { useState, useEffect, useRef } from 'react'
 export default function Page({ params }: { params: { id: string } }) {
   const { setSnack } = useSnackbar()
   const isMobile = useResponsive('down', 'sm')
+  const [isLoading, setIsLoading] = useState(true)
   const [track, setTrack] = useState<TrackInfo | null>(null)
   const [openTrackPlayer, setOpenTrackPlayer] = useState(false)
   const { user } = useAuth()
@@ -60,7 +62,7 @@ export default function Page({ params }: { params: { id: string } }) {
         const response = await axios.get(UrlConfig.common.getTrack(params.id))
         if (response.data.status === 'success') {
           const fecthedTrack = response.data.data.data as TrackInfo
-          if (user?._id !== fecthedTrack.artist._id) {
+          if (user?._id !== fecthedTrack.artist._id && !isLoading) {
             router.push('/401')
           } else {
             setTrack(fecthedTrack)
@@ -72,6 +74,8 @@ export default function Page({ params }: { params: { id: string } }) {
           message: 'An error occurs while fetching track',
           open: true
         })
+      } finally {
+        setIsLoading(false)
       }
     }
     fetchTrack()
@@ -157,7 +161,6 @@ export default function Page({ params }: { params: { id: string } }) {
   }
   return (
     <>
-      <CustomSnackbar />
       <Modal
         open={openTrackPlayer}
         onClose={() => {
@@ -184,90 +187,94 @@ export default function Page({ params }: { params: { id: string } }) {
           </Container>
         </Box>
       </Modal>
-      <Container maxWidth='xl' sx={{ maxHeight: '100%', overflow: 'auto', paddingBottom: '60px' }}>
-        {track && <TrackHeader track={track} />}
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <Container maxWidth='xl' sx={{ maxHeight: '100%', overflow: 'auto', paddingBottom: '60px' }}>
+          {track && <TrackHeader track={track} />}
 
-        <Stack direction='row' sx={{ justifyContent: 'space-between' }}>
-          <Typography variant='h3'>Track Information</Typography>
-          <Stack direction='row' spacing={2}>
-            <Button variant='outlined' onClick={() => setOpenTrackPlayer(true)}>
-              Preview
-            </Button>
-            <Button onClick={() => handleSaveChanges()} variant='contained'>
-              Save changes
-            </Button>
+          <Stack direction='row' sx={{ justifyContent: 'space-between' }}>
+            <Typography variant='h3'>Track Information</Typography>
+            <Stack direction='row' spacing={2}>
+              <Button variant='outlined' onClick={() => setOpenTrackPlayer(true)}>
+                Preview
+              </Button>
+              <Button onClick={() => handleSaveChanges()} variant='contained'>
+                Save changes
+              </Button>
+            </Stack>
           </Stack>
-        </Stack>
-        <FormGroup sx={{ marginY: '20px' }}>
-          <Grid container spacing={6}>
-            <Grid item xs={6} md={6} sm={12}>
-              <Stack spacing={2}>
-                <TextField
-                  id='title'
-                  name='title'
-                  label='Title'
-                  value={formValues.title}
-                  variant='outlined'
-                  helperText={!formErrors.title && 'Please fill in your track title'}
-                  onChange={handleTextFieldChange}
-                />
-                <TextField id='duration' name='duration' label='Duration' value={formValues.duration} disabled />
-                <TextField id='url' name='url' label='url' value={formValues.url} disabled />
-              </Stack>
-            </Grid>
-            <Grid item xs={6} md={6} sm={12}>
-              <Stack spacing={2}>
-                <TextField
-                  id='writtenBy'
-                  name='writtenBy'
-                  label='Written By'
-                  value={formValues.writtenBy}
-                  variant='outlined'
-                  helperText={!formErrors.writtenBy && 'Please fill in your track title'}
-                  onChange={handleTextFieldChange}
-                />
-                <TextField
-                  id='producedBy'
-                  name='producedBy'
-                  label='Produced By'
-                  value={formValues.producedBy}
-                  variant='outlined'
-                  helperText={!formErrors.producedBy && 'Please fill in your track title'}
-                  onChange={handleTextFieldChange}
-                />
-                <TextField
-                  id='source'
-                  name='source'
-                  label='Source'
-                  value={formValues.source}
-                  variant='outlined'
-                  helperText={!formErrors.source && 'Please fill in your track title'}
-                  onChange={handleTextFieldChange}
-                />
+          <FormGroup sx={{ marginY: '20px' }}>
+            <Grid container spacing={6}>
+              <Grid item xs={6} md={6} sm={12}>
+                <Stack spacing={2}>
+                  <TextField
+                    id='title'
+                    name='title'
+                    label='Title'
+                    value={formValues.title}
+                    variant='outlined'
+                    helperText={!formErrors.title && 'Please fill in your track title'}
+                    onChange={handleTextFieldChange}
+                  />
+                  <TextField id='duration' name='duration' label='Duration' value={formValues.duration} disabled />
+                  <TextField id='url' name='url' label='url' value={formValues.url} disabled />
+                </Stack>
+              </Grid>
+              <Grid item xs={6} md={6} sm={12}>
+                <Stack spacing={2}>
+                  <TextField
+                    id='writtenBy'
+                    name='writtenBy'
+                    label='Written By'
+                    value={formValues.writtenBy}
+                    variant='outlined'
+                    helperText={!formErrors.writtenBy && 'Please fill in your track title'}
+                    onChange={handleTextFieldChange}
+                  />
+                  <TextField
+                    id='producedBy'
+                    name='producedBy'
+                    label='Produced By'
+                    value={formValues.producedBy}
+                    variant='outlined'
+                    helperText={!formErrors.producedBy && 'Please fill in your track title'}
+                    onChange={handleTextFieldChange}
+                  />
+                  <TextField
+                    id='source'
+                    name='source'
+                    label='Source'
+                    value={formValues.source}
+                    variant='outlined'
+                    helperText={!formErrors.source && 'Please fill in your track title'}
+                    onChange={handleTextFieldChange}
+                  />
 
-                <TextField
-                  id='copyRight'
-                  name='copyRight'
-                  label='Copy Right'
-                  value={formValues.copyRight}
-                  variant='outlined'
-                  helperText={!formErrors.copyRight && 'Please fill in your track title'}
-                  onChange={handleTextFieldChange}
-                />
-                <TextField
-                  id='publishRight'
-                  name='publishRight'
-                  label='Publish Right'
-                  value={formValues.publishRight}
-                  variant='outlined'
-                  helperText={!formErrors.publishRight && 'Please fill in your track title'}
-                  onChange={handleTextFieldChange}
-                />
-              </Stack>
+                  <TextField
+                    id='copyRight'
+                    name='copyRight'
+                    label='Copy Right'
+                    value={formValues.copyRight}
+                    variant='outlined'
+                    helperText={!formErrors.copyRight && 'Please fill in your track title'}
+                    onChange={handleTextFieldChange}
+                  />
+                  <TextField
+                    id='publishRight'
+                    name='publishRight'
+                    label='Publish Right'
+                    value={formValues.publishRight}
+                    variant='outlined'
+                    helperText={!formErrors.publishRight && 'Please fill in your track title'}
+                    onChange={handleTextFieldChange}
+                  />
+                </Stack>
+              </Grid>
             </Grid>
-          </Grid>
-        </FormGroup>
-      </Container>
+          </FormGroup>
+        </Container>
+      )}
     </>
   )
 }

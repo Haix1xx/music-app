@@ -11,6 +11,7 @@ import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 import UrlConfig from '@/config/urlConfig'
 import PostLoader from '@/components/common/Loader/PostLoader'
 import Snackbar from '@/components/common/Snackbar'
+import CustomSnackbar from '@/components/common/Snackbar'
 interface CreateAlbumProps {
   open: boolean
   setOpen: (open: boolean) => void
@@ -76,35 +77,35 @@ export default function CreateAlbum({ open, setOpen }: CreateAlbumProps) {
         setCoverPath(artCover)
       }
 
-      if (!artCover && !coverPath) {
+      if (artCover || coverPath) {
+        const response = await axios.post(UrlConfig.common.albums, {
+          title: title,
+          releaseDate: releaseDate?.toString(),
+          coverPath: artCover ?? coverPath
+        })
+
+        if (response.data.status === 'success') {
+          setSnack({
+            open: true,
+            message: 'Album created successfully!',
+            type: 'success'
+          })
+          setIsSuccess(true)
+          setOpen(false)
+        }
+
+        setIsLoad(false)
+      } else {
         setSnack({
           open: true,
           message: 'An error occured while uploading art cover',
           type: 'error'
         })
-        return
       }
-      const response = await axios.post(UrlConfig.common.albums, {
-        title: title,
-        releaseDate: releaseDate?.toString(),
-        coverPath: coverPath
-      })
-
-      if (response.data.status === 'success') {
-        setSnack({
-          open: true,
-          message: 'Album created successfully!',
-          type: 'success'
-        })
-        setIsSuccess(true)
-        setOpen(false)
-      }
-
-      setIsLoad(false)
     } catch (err) {
       setSnack({
         open: true,
-        message: 'an error occured while creating new account',
+        message: 'an error occured while creating new album',
         type: 'error'
       })
     } finally {
@@ -114,7 +115,6 @@ export default function CreateAlbum({ open, setOpen }: CreateAlbumProps) {
   return (
     <>
       {isLoad && <PostLoader />}
-      {isSuccess && <Snackbar />}
       <Box>
         <FormGroup sx={{ marginBottom: '40px' }}>
           <Stack spacing={3}>

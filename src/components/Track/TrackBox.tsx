@@ -32,7 +32,7 @@ const TrackBox = forwardRef<HTMLDivElement, TrackBoxProps>((props, ref) => {
       sx={{
         maxWidth: '250px',
         padding: '10px 10px 0 10px',
-        margin: '30px',
+        margin: '15px',
         '&:hover': {
           backgroundColor: '#eeedf0'
         }

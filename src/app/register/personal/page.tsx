@@ -318,7 +318,7 @@ export default function PersonalRegister() {
   return (
     <>
       <CustomSnackbar />
-      <title> Signup | Beegin </title>
+      <title> Signup | Soundee </title>
       {!success ? (
         <StyledRoot>
           <StyledForm>

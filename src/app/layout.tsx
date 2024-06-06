@@ -59,7 +59,7 @@ const poppins = Poppins({
 })
 
 const metadata = {
-  title: 'Beegin',
+  title: 'Soundee',
   description: 'A new next generation social media application! Where your stories beegin.'
 }
 const menuItems = [

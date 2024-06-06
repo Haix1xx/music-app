@@ -1,5 +1,5 @@
 'use client'
-import { Box, Container, Stack, Typography } from '@mui/material'
+import { Box, Container, Stack, Typography, Button } from '@mui/material'
 
 import ProfileHeader from '@/components/Artist/ProfileHeader'
 import { useEffect, useRef, useState } from 'react'
@@ -11,11 +11,11 @@ import { User } from '@/types/user'
 import { Single } from '@/types/single'
 import { Album } from '@/types/album'
 import { ArtistProfile } from '@/types/artist'
+import { useRouter } from 'next/navigation'
 
 export default function Page() {
   // responsive
   const [visibleTracks, setVisibleTracks] = useState(5)
-  const albumStackRef = useRef<HTMLDivElement>(null)
   const trackStackRef = useRef<HTMLDivElement>(null)
   const trackBoxRef = useRef<HTMLDivElement>(null)
 
@@ -46,7 +46,7 @@ export default function Page() {
   }, [])
 
   const axios = useAxiosPrivate()
-
+  const router = useRouter()
   const [latestSingles, setLastestSingles] = useState<Single[]>([])
   const [latestAlbums, setLatestAlbums] = useState<Album[]>([])
   const [user, setUser] = useState<User | null>()
@@ -73,11 +73,22 @@ export default function Page() {
     }
     setUser(auth.user)
   }, [auth])
+
+  const handleNavigation = () => {
+    router.push(`/artist/discography/all`)
+  }
   return (
     <>
       <title> Discography </title>
       <Container maxWidth='xl' sx={{ maxHeight: '100%', overflow: 'auto', paddingBottom: '60px' }}>
         <ProfileHeader avatar={user?.profile.avatar} artistName={`${user?.profile.displayname}`} />
+
+        <Stack direction='row' sx={{ justifyContent: 'space-between', paddingY: '20px' }}>
+          <Typography variant='h2'>Discography</Typography>
+          <Button onClick={handleNavigation} variant='text' sx={{ marginRight: '50px' }}>
+            Show All
+          </Button>
+        </Stack>
         <Box sx={{ paddingBottom: '30px' }}>
           <Typography variant='h3'>Singles</Typography>
           <Stack spacing={3} direction='row' sx={{ flexWrap: 'wrap' }} ref={trackStackRef}>

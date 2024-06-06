@@ -192,7 +192,6 @@ export default function TrackForm({ album, setAlbum, handleClose }: TrackFormPro
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [cropper, setCropper] = useState<any>(null)
   const returnUrl = decodeURIComponent(searchParams.get('returnUrl') ?? '/artist')
-  console.log(returnUrl)
 
   const getCropData = async () => {
     if (cropper) {
@@ -257,7 +256,6 @@ export default function TrackForm({ album, setAlbum, handleClose }: TrackFormPro
     }
 
     setIsSubmitting(true)
-    console.log(formValues)
     const formData = new FormData()
     formData.append('track', new File([formValues.track.blob], formValues.track.name, { type: formValues.track.type }))
     formData.append('coverPath', artCover)
@@ -350,7 +348,7 @@ export default function TrackForm({ album, setAlbum, handleClose }: TrackFormPro
   }
   return (
     <>
-      <CustomSnackbar />
+      {/* <CustomSnackbar /> */}
       <Container
         sx={{ position: 'relative', marginTop: '0px', paddingBottom: '20px', overflowY: 'auto', height: '80vh' }}
       >

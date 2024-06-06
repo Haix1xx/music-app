@@ -133,7 +133,6 @@ export default function LoginPage() {
     if (resJson.status === 'success') {
       // redirect to '/'
       const user = resJson.data.user as User
-      console.log(resJson)
       setIsAuthenticated(true)
       setAccessToken(resJson.token)
       setUser(user)
@@ -148,7 +147,7 @@ export default function LoginPage() {
       } else if (user.role === 'artist') {
         router.push('/artist')
       } else {
-        router.push('/home')
+        router.push('/login')
       }
     } else {
       setIsLoggingIn(false)
@@ -159,7 +158,7 @@ export default function LoginPage() {
   return (
     <>
       <Snackbar />
-      <title> Login | Beegin </title>
+      <title> Login | Soundee </title>
       <StyledRoot>
         {mdUp && (
           <StyledBanner>
@@ -198,7 +197,7 @@ export default function LoginPage() {
           <StyledContent>
             <Image src={logoMobile} alt='logo' width={38} style={{ margin: '0' }} />
             <Typography variant='h4' gutterBottom className='mt-8 mb-6'>
-              Sign in to Beegin
+              Sign in to Soundee
             </Typography>
             <Stack spacing={3} className='w-full'>
               <TextField
