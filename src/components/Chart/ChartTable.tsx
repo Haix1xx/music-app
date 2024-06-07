@@ -10,12 +10,18 @@ import Chart from '@/types/chart'
 import TrackCell from './TrackCell'
 import StatusLabel from './StatusLabel'
 import { Stack, Typography } from '@mui/material'
+import { useRouter } from 'next/navigation'
 
 interface ChartTableProps {
   chart: Chart
 }
 
 export default function ChartTable({ chart }: ChartTableProps) {
+  const router = useRouter()
+
+  const handleNagivation = (trackId: string) => {
+    router.push(`/tracks/${trackId}`)
+  }
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label='simple table'>
@@ -30,14 +36,20 @@ export default function ChartTable({ chart }: ChartTableProps) {
         </TableHead>
         <TableBody>
           {chart.tracks.map((trackChart) => (
-            <TableRow key={trackChart.track._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+            <TableRow
+              key={trackChart.track._id}
+              sx={{
+                '&:last-child td, &:last-child th': { border: 0 },
+                '&:hover': { backgroundColor: 'secondary.lighter' }
+              }}
+            >
               <TableCell component='th' scope='row'>
                 <Stack direction='row' spacing={2}>
                   <Typography>{trackChart.order + 1}</Typography>
                   <StatusLabel curr={trackChart.order} prev={trackChart.prevPosition} peak={trackChart.peak} />
                 </Stack>
               </TableCell>
-              <TableCell align='left'>
+              <TableCell align='left' onDoubleClick={() => handleNagivation(trackChart.track._id)}>
                 <TrackCell
                   _id={trackChart.track._id}
                   coverPath={trackChart.track.coverPath}
