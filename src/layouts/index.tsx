@@ -7,8 +7,6 @@ import Sidebar from '@/layouts/Sidebar'
 
 import { TextField, InputAdornment, FormControl, Box, Stack, Button, Typography } from '@mui/material'
 
-import SearchRoundedIcon from '@mui/icons-material/SearchRounded'
-import NotificationsRoundedIcon from '@mui/icons-material/NotificationsRounded'
 import { Poppins } from 'next/font/google'
 import useResponsive from '@/hooks/useResponsive'
 import logoMobile from '@/assets/logoMobile.png'
