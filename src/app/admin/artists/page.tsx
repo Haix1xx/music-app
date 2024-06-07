@@ -19,7 +19,10 @@ import {
   Stack,
   Container,
   Tooltip,
-  Avatar
+  Avatar,
+  FormControl,
+  InputAdornment,
+  OutlinedInput
 } from '@mui/material'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 import UrlConfig from '@/config/urlConfig'
@@ -98,6 +101,7 @@ function Page() {
   const [total, setTotal] = useState(0)
   const [selectedArtist, setSelectedArtist] = useState<Artist>()
   const [reload, setReload] = useState(false)
+  const [searchText, setSearchText] = useState('')
   const router = useRouter()
   useEffect(() => {
     const fetchData = async () => {
@@ -106,21 +110,31 @@ function Page() {
           sort: string
           limit: number
           page: number
+          type: string | undefined
+          q: string | undefined
         } = {
           sort: '-createdAt',
           limit: rowsPerPage,
-          page: page + 1
+          page: page + 1,
+          type: undefined,
+          q: undefined
         }
 
-        const response = await axiosPrivate.get(UrlConfig.common.artists, { params })
-        setData(response.data.data.data)
-        setTotal(response.data.total)
+        let url = UrlConfig.common.artists
+        if (searchText) {
+          url = UrlConfig.common.searchPaging
+          params.type = 'artist'
+          params.q = searchText
+        }
+        const response = await axiosPrivate.get(encodeURI(url), { params })
+        setData(response.data.data.data as Artist[])
+        setTotal(response.data?.total ?? response.data.data.total)
       } catch (error) {
         console.log(error)
       }
     }
     fetchData()
-  }, [page, rowsPerPage, reload])
+  }, [page, rowsPerPage, reload, searchText])
   const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
     setPage(newPage)
   }
@@ -172,6 +186,14 @@ function Page() {
       <Container maxWidth='xl' sx={{ height: '100%', overflowY: 'auto' }}>
         <Stack direction='row' sx={{ justifyContent: 'space-between' }}>
           <Typography variant='h2'>Artist Management</Typography>
+          <FormControl sx={{ m: 1, width: '40%' }} variant='outlined'>
+            <OutlinedInput
+              id='outlined-adornment-amount'
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+              startAdornment={<InputAdornment position='start'>Search: </InputAdornment>}
+            />
+          </FormControl>
         </Stack>
         <TableContainer component={Paper} style={{ paddingBottom: '20px' }}>
           <Table sx={{ minWidth: 500, height: '100%' }} aria-label='custom pagination table'>

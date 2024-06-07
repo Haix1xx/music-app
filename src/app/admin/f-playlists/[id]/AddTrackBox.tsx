@@ -180,7 +180,7 @@ export default function AddTrackBox({ setOpen, setPlaylist, playlist }: AddTrack
         </Stack>
 
         {selectedTracks.length > 0 && (
-          <Stack direction='row' sx={{ justifyContent: 'flex-end' }}>
+          <Stack direction='row' sx={{ justifyContent: 'flex-end', paddingTop: '20px' }}>
             <Button disabled={selectedTracks.length === 0} variant='contained' onClick={handleAddTrackToPlaylist}>
               Apply
             </Button>

@@ -45,7 +45,10 @@ const UrlConfig: any = {
       `/api/v1/search?q=${q}&type=${type}&limit=${limit}&page=${page}`,
     chart: `/api/v1/charts`,
     getChart: (chartDate: string) => `/api/v1/charts/${chartDate}`,
-    stream: `/api/v1/streams`
+    stream: `/api/v1/streams`,
+    searchPaging: '/api/v1/search/paging'
+    // searchPaging: (searchText: string, type: string, limit: number = 5, page: number = 1) =>
+    //   `/api/v1/search/paging?q=${searchText}&type=${type}&limit=${limit}&page=${page}`
   },
   user: {
     login: `${process.env.NEXT_APP_BEEGIN_DOMAIN}/api/v1/users/login`,
