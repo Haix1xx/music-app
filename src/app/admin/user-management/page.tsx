@@ -191,7 +191,7 @@ function page() {
               <MenuItem value=''>All</MenuItem>
               <MenuItem value='user'>User</MenuItem>
               <MenuItem value='admin'>Admin</MenuItem>
-              <MenuItem value='business'>Business</MenuItem>
+              <MenuItem value='artist'>Artist</MenuItem>
             </Select>
           </FormControl>
         </Grid>
