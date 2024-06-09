@@ -42,7 +42,9 @@ import {
   Addchart,
   AddchartOutlined,
   BarChartOutlined,
-  BarChart
+  BarChart,
+  AssignmentOutlined,
+  Assignment
 } from '@mui/icons-material'
 import TanstackProvider from '@/providers/TanstackProvider'
 import { FaHouseChimney, FaRegUser, FaUser, FaCircleUser, FaRegCircleUser } from 'react-icons/fa6'
@@ -89,6 +91,12 @@ const menuAdminItems = [
     iconActive: <PeopleAltIcon />,
     label: 'Users',
     path: '/admin/user-management'
+  },
+  {
+    icon: <AssignmentOutlined />,
+    iconActive: <Assignment />,
+    label: 'Requests',
+    path: '/admin/requests'
   },
   {
     icon: <InterpreterModeOutlinedIcon />,

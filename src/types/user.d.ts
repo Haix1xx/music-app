@@ -8,4 +8,5 @@ export interface User {
   preferences: string[]
   createdAt: string
   profile: any
+  isActive: boolean
 }
