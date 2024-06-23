@@ -10,7 +10,7 @@ const UrlConfig: any = {
     rejectBusinessRequest: `/api/v1/users/business/reject`,
     sendApprovalRequest: `/api/v1/users/business/approve`,
     cancelApprovalRequest: `/api/v1/users/business/cancel`,
-    lockOrUnlockAccount: (userId: string) => `/api/v1/users/lockOrUnlockAccount/${userId}`,
+    lockOrUnlockAccount: `/api/v1/users/lock`,
     getRevenue: `/api/v1/transactions/revenue`,
     artistRequest: `/api/v1/artist-requests`
   },

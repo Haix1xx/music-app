@@ -154,9 +154,9 @@ function page() {
   const handleRoleChange = (event: any) => {
     setSelectedRole(event.target.value as string)
   }
-  const lockOrUnlockAccount = async (userId: String) => {
+  const lockOrUnlockAccount = async (userId: String, isActive: Boolean = false) => {
     try {
-      await axiosPrivate.patch(UrlConfig.admin.lockOrUnlockAccount(userId))
+      await axiosPrivate.put(UrlConfig.admin.lockOrUnlockAccount, { userId, isActive })
       setData((prevData) =>
         prevData.map((user) => (user._id === userId ? { ...user, isActive: !user.isActive } : user))
       )
@@ -219,7 +219,7 @@ function page() {
                   <TableCell style={{ textAlign: 'center' }}>
                     <Button
                       variant={user.isActive ? 'outlined' : 'contained'}
-                      onClick={() => lockOrUnlockAccount(user._id)}
+                      onClick={() => lockOrUnlockAccount(user._id, !user?.isActive ?? false)}
                     >
                       {user.isActive ? 'Lock' : 'Unlock'}
                     </Button>

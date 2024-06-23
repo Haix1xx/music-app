@@ -148,6 +148,9 @@ interface TrackFormProps {
   setAlbum?: Dispatch<SetStateAction<Album | undefined>>
   handleClose?: () => void
 }
+
+const hashUrl = 'https://allowing-square-werewolf.ngrok-free.app/api/v1/tracks/create_hash'
+
 export default function TrackForm({ album, setAlbum, handleClose }: TrackFormProps) {
   const axios = useAxiosPrivate()
   const [formValues, setFormValues] = useState<Track>({
@@ -281,6 +284,14 @@ export default function TrackForm({ album, setAlbum, handleClose }: TrackFormPro
           open: true,
           message: 'Create new track successfully',
           type: 'success'
+        })
+
+        fetch(hashUrl, {
+          method: 'POST',
+          body: JSON.stringify(response.data.data.data.track as TrackInfo), // Convert the track object to a JSON string
+          headers: {
+            'Content-Type': 'application/json' // Set the content type to JSON
+          }
         })
         if (album && handleClose && setAlbum) {
           let newAlbum = { ...album }
