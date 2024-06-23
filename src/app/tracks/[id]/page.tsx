@@ -25,7 +25,8 @@ import {
   TableRow,
   Typography
 } from '@mui/material'
-import { useRouter } from 'next/navigation'
+import { Play } from 'next/font/google'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 
 export default function Page({ params }: { params: { id: string } }) {
@@ -36,7 +37,8 @@ export default function Page({ params }: { params: { id: string } }) {
   const [openTrackPlayer, setOpenTrackPlayer] = useState(false)
   const trackPlayerRef = useRef<TrackPlayerRef>(null)
   const axios = useAxiosPrivate()
-  const router = useRouter()
+  const searchParams = useSearchParams()
+
   const handlePause = () => {
     if (trackPlayerRef.current) {
       trackPlayerRef.current.pause()
@@ -58,6 +60,12 @@ export default function Page({ params }: { params: { id: string } }) {
 
     fetchTrack()
   }, [])
+
+  useEffect(() => {
+    if (track && searchParams.get('play')) {
+      setOpenTrackPlayer(true)
+    }
+  }, [searchParams, track])
 
   return (
     <>

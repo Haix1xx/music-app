@@ -21,7 +21,8 @@ import {
   Avatar,
   FormControl,
   OutlinedInput,
-  InputAdornment
+  InputAdornment,
+  Modal
 } from '@mui/material'
 import useAxiosPrivate from '@/hooks/useAxiosPrivate'
 import UrlConfig from '@/config/urlConfig'
@@ -37,6 +38,8 @@ import { TrackInfo } from '@/types/TrackInfo'
 import { format } from '@/utils/formatDate'
 import { RemoveRedEye } from '@mui/icons-material'
 import { useRouter } from 'next/navigation'
+import TrackDetectBox from '@/components/Track/TrackDetectBox'
+
 interface TablePaginationActionsProps {
   count: number
   page: number
@@ -142,45 +145,49 @@ function Page() {
     setPage(0)
   }
 
-  const handleOpenEditModal = (index: number) => {
-    setSelectedTrack(data[index])
-    setOpen(true)
-  }
+  // const handleOpenEditModal = (index: number) => {
+  //   setSelectedTrack(data[index])
+  //   setOpen(true)
+  // }
 
-  const handleOpenCreateModal = () => {
-    setSelectedTrack(undefined)
-    setOpen(true)
-  }
+  // const handleOpenCreateModal = () => {
+  //   setSelectedTrack(undefined)
+  //   setOpen(true)
+  // }
 
   const onModalClose = () => {
-    setSelectedTrack(undefined)
     setOpen(false)
   }
 
+  const onModalOpen = () => {
+    setOpen(true)
+  }
   const handleViewDetals = (id: string) => {
     router.push(`/tracks/${id}`)
   }
   return (
     <>
       <CustomSnackbar />
-      {/* <Modal open={open} onClose={onModalClose}>
-        <Box
-          sx={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: isMobile ? '60%' : '35%',
-            height: '250px',
-            bgcolor: 'background.paper',
-            boxShadow: 24,
-            borderRadius: 2,
-            padding: isMobile ? 3 : '20px'
-          }}
-        >
-          <CreateGenre open={open} setOpen={setOpen} genre={selectedGenre} setReload={setReload} />
-        </Box>
-      </Modal> */}
+      {
+        <Modal open={open} onClose={onModalClose}>
+          <Box
+            sx={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: isMobile ? '60%' : '40%',
+              height: isMobile ? '60%' : '80%',
+              bgcolor: 'background.paper',
+              boxShadow: 24,
+              borderRadius: 2,
+              padding: isMobile ? 3 : '20px'
+            }}
+          >
+            <TrackDetectBox />
+          </Box>
+        </Modal>
+      }
       <Container maxWidth='xl' sx={{ height: '100%', overflowY: 'auto' }}>
         <Stack direction='row' sx={{ justifyContent: 'space-between' }}>
           <Typography variant='h2'>Track Management</Typography>
@@ -190,6 +197,7 @@ function Page() {
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
               startAdornment={<InputAdornment position='start'>Search: </InputAdornment>}
+              onDoubleClick={onModalOpen}
             />
           </FormControl>
         </Stack>
