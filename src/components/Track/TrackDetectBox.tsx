@@ -71,7 +71,11 @@ export default function TrackDetectBox() {
         if (audioFile) {
           const formData = new FormData()
           formData.append('audio', audioFile)
-
+          setSnack({
+            message: 'Detecting',
+            open: true,
+            type: 'info'
+          })
           const response = await fetch(detectApi, {
             method: 'POST',
             body: formData
